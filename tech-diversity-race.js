@@ -34,8 +34,9 @@ function TechDiversityRace() {
     this.select.position(300, 20);
 
     // Fill the options with all company names.
-    var companies = this.data.getColumn('company');
-    for (let i = 0; i < companies.length; i++) {
+    var companies = this.data.columns;
+    // First entry is empty.
+    for (let i = 1; i < companies.length; i++) {
       this.select.option(companies[i]);
     }
   };
@@ -53,21 +54,24 @@ function TechDiversityRace() {
       return;
     }
 
-    var row = this.data.findRow(this.select.value(), 'company');
+    // Get the value of the company we're interested in from the
+    // select item.
+    var companyName = this.select.value();
 
-    // Get the value of the first column (company name).
-    var companyName = row.getString(0);
+    // Get the column of raw data and convert all strings to numbers.
+    var col = this.data.getColumn(companyName);
+    col = stringsToNumbers(col);
 
-    // Convert the rest of the row data from strings to numbers.
-    var rowData = sliceNumbers(row, 1);
+    // Copy the row labels from the table (the first item of each row).
+    var labels = this.data.getColumn(0);
 
-    // Copy the data labels from the table (all the column names minus
-    // the first one).
-    var labels = this.data.columns.slice(1);
-
+    // Colour to use for each category.
     var colours = ['blue', 'red', 'green', 'pink', 'purple', 'yellow'];
 
+    // Make a title.
     var title = 'Employee diversity at ' + companyName;
-    this.pie.draw(rowData, labels, colours, title);
+
+    // Draw the pie chart!
+    this.pie.draw(col, labels, colours, title);
   };
 }

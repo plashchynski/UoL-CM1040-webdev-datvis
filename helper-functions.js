@@ -8,7 +8,7 @@ function sum(data) {
   return total;
 }
 
-function sliceNumbers (row, start=0, end) {
+function sliceRowNumbers (row, start=0, end) {
   var rowData = [];
 
   if (!end) {
@@ -21,4 +21,8 @@ function sliceNumbers (row, start=0, end) {
   }
 
   return rowData;
+}
+
+function stringsToNumbers (array) {
+  return array.map(Number);
 }

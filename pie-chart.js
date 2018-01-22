@@ -17,6 +17,8 @@ function PieChart(x, y, diameter) {
   };
 
   this.draw = function(data, labels, colours, title) {
+    // FIXME: Check data, labels and colour are equal length.
+
     var angles = this.get_radians(data);
     var lastAngle = 0;
     var colour;
