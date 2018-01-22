@@ -15,6 +15,7 @@ function setup() {
   // Add the visualisation objects here.
   gallery.addFigure(new TechDiversityRace());
   gallery.addFigure(new TechDiversityGender());
+  gallery.addFigure(new PayGapByJob2017());
 }
 
 function draw() {
