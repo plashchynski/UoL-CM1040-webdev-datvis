@@ -28,12 +28,6 @@ function Gallery() {
     menuItem.appendChild(menuItemWrapper);
     $('#figure-menu').append(menuItem);
 
-    // If no figure is selected (ie. none have been added so far) make
-    // this figure the selected one.
-    if (this.selectedFigure == null) {
-      this.selectFigure(fig.id);
-    }
-
     // Preload data if necessary.
     if (fig.hasOwnProperty('preload')) {
       fig.preload();
