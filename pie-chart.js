@@ -16,7 +16,7 @@ function PieChart(x, y, diameter) {
     return radians;
   };
 
-  this.draw = function(data, labels, colours) {
+  this.draw = function(data, labels, colours, title) {
     var angles = this.get_radians(data);
     var lastAngle = 0;
     var colour;
@@ -41,6 +41,12 @@ function PieChart(x, y, diameter) {
 
       lastAngle += angles[i];
     }
+
+    if (title) {
+      textAlign('center');
+      textSize(24);
+      text(title, this.x, this.y - this.diameter * 0.6);
+    }
   };
 
   this.makeLegendItem = function(label, i, colour) {
@@ -51,6 +57,8 @@ function PieChart(x, y, diameter) {
     rect(x, y, -10, -10);
 
     fill('black');
+    textAlign('left');
+    textSize(12);
     text(label, x + 10, y);
   };
 }

@@ -50,6 +50,7 @@ function TechDiversityRace() {
 
     var colours = ['blue', 'red', 'green', 'pink', 'purple', 'yellow'];
 
-    this.pie.draw(rowData, labels, colours);
+    var title = 'Employee diversity at ' + companyName;
+    this.pie.draw(rowData, labels, colours, title);
   };
 }
