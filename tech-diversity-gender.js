@@ -31,5 +31,9 @@ function TechDiversityGender() {
   };
 
   this.draw = function() {
+    if (!this.loaded) {
+      console.log('Data not yet loaded');
+      return;
+    }
   };
 }
