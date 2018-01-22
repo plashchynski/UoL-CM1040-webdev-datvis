@@ -24,7 +24,9 @@ function TechDiversityRace() {
   };
 
   this.setup = function() {
-    // TODO: Make select.
+  };
+
+  this.destroy = function() {
   };
 
   // Create a new pie chart object.

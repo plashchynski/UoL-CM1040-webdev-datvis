@@ -43,15 +43,15 @@ function Gallery() {
       if (this.figures[i].id == figId) {
         // If the figure has a deselect method run it.
         if (this.selectedFigure != null
-           && this.selectedFigure.hasOwnProperty('deselect')) {
-          this.selectedFigure.deselect();
+           && this.selectedFigure.hasOwnProperty('destroy')) {
+          this.selectedFigure.destroy();
         }
         // Select the figure in the gallery.
         this.selectedFigure = this.figures[i];
 
-        // If the figure has an options area. Populate it now.
-        if (this.selectedFigure.hasOwnProperty('populateOptions')) {
-          this.selectedFigure.populateOptions();
+        // Initialise visualisation if necessary.
+        if (this.selectedFigure.hasOwnProperty('setup')) {
+          this.selectedFigure.setup();
         }
       }
     }

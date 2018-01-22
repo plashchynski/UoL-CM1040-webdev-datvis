@@ -24,7 +24,12 @@ function TechDiversityGender() {
 
   };
 
-  this.draw = function() {
+  this.setup = function() {
   };
 
+  this.destroy = function() {
+  };
+
+  this.draw = function() {
+  };
 }
