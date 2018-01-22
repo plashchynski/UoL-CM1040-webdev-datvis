@@ -32,7 +32,7 @@ function PieChart(x, y, diameter) {
       arc(
         this.x, this.y,
         this.diameter, this.diameter,
-        lastAngle, lastAngle + angles[i]
+        lastAngle, lastAngle + angles[i] + 0.001 // Hack for 0!
       );
 
       if (labels) {

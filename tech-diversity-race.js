@@ -24,9 +24,24 @@ function TechDiversityRace() {
   };
 
   this.setup = function() {
+    if (!this.loaded) {
+      console.log('Data not yet loaded');
+      return;
+    }
+
+    // Create a select DOM element.
+    this.select = createSelect();
+    this.select.position(300, 20);
+
+    // Fill the options with all company names.
+    var companies = this.data.getColumn('company');
+    for (let i = 0; i < companies.length; i++) {
+      this.select.option(companies[i]);
+    }
   };
 
   this.destroy = function() {
+    removeElements();
   };
 
   // Create a new pie chart object.
@@ -38,7 +53,7 @@ function TechDiversityRace() {
       return;
     }
 
-    var row =this.data.findRow('Facebook', 'company');
+    var row = this.data.findRow(this.select.value(), 'company');
 
     // Get the value of the first column (company name).
     var companyName = row.getString(0);
