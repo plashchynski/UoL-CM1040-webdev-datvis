@@ -58,8 +58,10 @@ function TechDiversityRace() {
     // select item.
     var companyName = this.select.value();
 
-    // Get the column of raw data and convert all strings to numbers.
+    // Get the column of raw data for companyName.
     var col = this.data.getColumn(companyName);
+
+    // Convert all data strings to numbers.
     col = stringsToNumbers(col);
 
     // Copy the row labels from the table (the first item of each row).

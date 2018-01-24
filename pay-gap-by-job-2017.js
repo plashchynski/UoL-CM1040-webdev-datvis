@@ -12,8 +12,8 @@ function PayGapByJob2017() {
 
   // Graph properties.
   this.pad = 20;
-  this.dotSizeMin = 20;
-  this.dotSizeMax = 50;
+  this.dotSizeMin = 15;
+  this.dotSizeMax = 40;
 
   // Preload the data. This function is called automatically by the
   // gallery when a visualisation is added.
@@ -41,37 +41,53 @@ function PayGapByJob2017() {
       return;
     }
 
+    // Get data from the table object.
     var jobs = this.data.getColumn('job_subtype');
     var propFemale = this.data.getColumn('proportion_female');
     var payGap = this.data.getColumn('pay_gap');
     var numJobs = this.data.getColumn('num_jobs');
 
-    // Use full 100% for x-axis.
+    // Convert numerical data from strings to numbers.
+    propFemale = stringsToNumbers(propFemale);
+    payGap = stringsToNumbers(payGap);
+    numJobs = stringsToNumbers(numJobs);
+
+    // Set ranges for axes.
+    //
+    // Use full 100% for x-axis (proportion of women in roles).
     var propFemaleMin = 0;
     var propFemaleMax = 100;
 
-    // For pay gap axis use a symmetrical axis equal to the largest
-    // gap direction so that equal pay (0% pay gap) is in the centre
-    // of the canvas.
-    var payGapMin = min(payGap);
-    var payGapMax = max(payGap);
-    var payGapScale = max(payGapMin, payGapMax);
+    // For y-axis (pay gap) use a symmetrical axis equal to the
+    // largest gap direction so that equal pay (0% pay gap) is in the
+    // centre of the canvas. Above the line means men are paid
+    // more. Below the line means women are paid more.
+    var payGapMin = -20;
+    var payGapMax = 20;
 
+    // Find smallest and largest numbers of people across all
+    // categories to scale the size of the dots.
     var numJobsMin = min(numJobs);
     var numJobsMax = max(numJobs);
 
     fill(255);
 
     for (i = 0; i < this.data.getRowCount(); i++) {
-      ellipse(map(propFemale[i], propFemaleMin, propFemaleMax,
-                  this.pad, width - this.pad),
-              map(payGap[i], -payGapScale, payGapScale,
-                  height - this.pad, this.pad),
-              map(numJobs[i], numJobsMin, numJobsMax,
-                  this.dotSizeMin, this.dotSizeMax)
-             );
+      // Draw an ellipse for each point.
+      // x = propFemale
+      // y = payGap
+      // size = numJobs
+      ellipse(
+        map(propFemale[i], propFemaleMin, propFemaleMax,
+            this.pad, width - this.pad),
+        map(payGap[i], payGapMin, payGapMax,
+            height - this.pad, this.pad),
+        map(numJobs[i], numJobsMin, numJobsMax,
+            this.dotSizeMin, this.dotSizeMax)
+      );
     }
 
+    // Draw the axes.
     this.addAxes();
   };
 

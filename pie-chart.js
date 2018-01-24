@@ -17,7 +17,9 @@ function PieChart(x, y, diameter) {
   };
 
   this.draw = function(data, labels, colours, title) {
-    // FIXME: Check data, labels and colour are equal length.
+    // FIXME: Check data, labels and colour arrays are equal length.
+
+    // https://p5js.org/examples/form-pie-chart.html
 
     var angles = this.get_radians(data);
     var lastAngle = 0;
