@@ -39,21 +39,29 @@ Complete the `draw()` function in `tech-diversity-race.js`.
 2. Loop at the raw data: `./data/tech-diversity/race-2018.csv`. Maybe
    in a spreadsheet program.
 
-3. Using `console.log`, extract the data from the table and store it
-   in the variables required by the `PieChart` draw method (`col`,
-   `labels`, `colours`, `title`).
+3. Extract the relevant data from the table (`this.data`) and store it
+   in the variables required by the `PieChart` `draw` method (`col`,
+   `labels`). Check each variable contains the correct data using
+   `console.log`.
 
-4. Write a helper function caled `stringsToNumbers` that takes an
-   array of number represented as strings, and converts them all to
-   numbers.
+4. Create a `colours` array containing colour values that will be used
+   to specify the respective colour of each pie chart segment.
 
-5. Pass all your variables to the `PieChart` `draw` method.
+5. Create a title for your plot and assign it to the `title`
+   variable. You should build a string using the `companyName`
+   variable so that the title will automatically contain the correct
+   company name when a different company is selected.
 
-6. Based on the p5.js example
+6. Pass all your variables to the `PieChart` `draw` method.
+
+7. Based on the p5.js example
    [here](https://p5js.org/examples/form-pie-chart.html), complete the
-   draw method in `pie-chart.js`. You method should be better than
-   this example! It should be able to use all of the parameter and
-   plot them in the canvas.
+   draw method in `pie-chart.js`. Your method should be better than
+   this example! It should be able to use all of the parameter
+   (`data`, `labels`, `colours`, `title`) and plot them correctly on
+   the canvas. Display the `labels` data alongside the pie chart in a
+   legend showing the viewer which colour in the chart corresponds to
+   each race.
 
     Note the following hack.
 
@@ -65,6 +73,12 @@ Complete the `draw()` function in `tech-diversity-race.js`.
         );
     ```
 
-7. Create a select DOM element using p5.dom.js and populate options
-   using company names so that selecting a company name from the list
-   draws the correspond data.
+8. Create a select DOM element using p5.dom.js (see
+   [`createSelect`](https://p5js.org/reference/#/p5/createSelect) and
+   populate the options programmatically using the company names
+   obtained from `this.data`.
+   - Hint: you need a `for` loop.
+
+9. Test that when selecting a company name from the list the correct
+   data is visualised on the canvas and the correct title is
+   generated.
