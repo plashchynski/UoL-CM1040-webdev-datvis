@@ -1,17 +1,13 @@
 ### Case study 2: Data visualisation
 
-Four example data visualisations are provided below.
+Two example data visualisations are provided below.
 
-These visualisations were created with Python. The task today us to
+These visualisations were created with Python. The task today is to
 implement similar visualisations in JavaScript using p5.js.
-
-![diversity-race](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/diversity-race-facebook.svg)
-
-![diversity-gender](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/diversity-tech-gender.svg)
 
 ![paygapByJob2017](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/pay-gap-by-job-2017.svg)
 
-![payGapTimeSeries](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/pay-gap-timeseries.svg)
+![diversity-race](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/diversity-race-facebook.svg)
 
 #### Tasks
 
@@ -62,6 +58,8 @@ Complete the `draw()` function in `tech-diversity-race.js`.
    the canvas. Display the `labels` data alongside the pie chart in a
    legend showing the viewer which colour in the chart corresponds to
    each race.
+   - Advanced version: Instead of a legend, try plotting the labels
+     next to the corresponding slice.
 
     Note the following hack.
 
@@ -74,7 +72,7 @@ Complete the `draw()` function in `tech-diversity-race.js`.
     ```
 
 8. Create a select DOM element using p5.dom.js (see
-   [`createSelect`](https://p5js.org/reference/#/p5/createSelect) and
+   [`createSelect`](https://p5js.org/reference/#/p5/createSelect)) and
    populate the options programmatically using the company names
    obtained from `this.data`.
    - Hint: you need a `for` loop.
@@ -82,3 +80,13 @@ Complete the `draw()` function in `tech-diversity-race.js`.
 9. Test that when selecting a company name from the list the correct
    data is visualised on the canvas and the correct title is
    generated.
+
+### Further work
+
+The following two visualisation are on the same topics, and the data
+is available in the template project. Try and create similar
+visualisations in p5.
+
+![diversity-gender](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/diversity-tech-gender.svg)
+
+![payGapTimeSeries](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/pay-gap-timeseries.svg)
