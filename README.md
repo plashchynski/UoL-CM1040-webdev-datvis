@@ -32,7 +32,7 @@ Complete the `draw()` function in `tech-diversity-race.js`.
 
 1. Look up the documentation for [Table](https://p5js.org/reference/#/p5.Table).
 
-2. Loop at the raw data: `./data/tech-diversity/race-2018.csv`. Maybe
+2. Look at the raw data: `./data/tech-diversity/race-2018.csv`. Maybe
    in a spreadsheet program.
 
 3. Extract the relevant data from the table (`this.data`) and store it
