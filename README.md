@@ -19,7 +19,7 @@ and look over the code.
 
 Read through the file `pay-gap-by-job-2017.js`.
 
-At line 65, complete the `for` loop that draws all of the data points
+At line 75, complete the `for` loop that draws all of the data points
 on the canvas.
 
     - x = proportion of female employees.
