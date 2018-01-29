@@ -11,8 +11,7 @@ implement similar visualisations in JavaScript using p5.js.
 
 #### Tasks
 
-Download the data vis project
-[template](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/data-vis.zip)
+Download the data vis project template from the bottom of this page
 and look over the code.
 
 #### Pay gap by job 2017
@@ -58,8 +57,6 @@ Complete the `draw()` function in `tech-diversity-race.js`.
    the canvas. Display the `labels` data alongside the pie chart in a
    legend showing the viewer which colour in the chart corresponds to
    each race.
-   - Advanced version: Instead of a legend, try plotting the labels
-     next to the corresponding slice.
 
     Note the following hack.
 
@@ -70,6 +67,9 @@ Complete the `draw()` function in `tech-diversity-race.js`.
             lastAngle, lastAngle + angles[i] + 0.001 // Hack for 0!
         );
     ```
+
+    - Advanced version: Instead of a legend, try plotting the labels
+      next to the corresponding slice.
 
 8. Create a select DOM element using p5.dom.js (see
    [`createSelect`](https://p5js.org/reference/#/p5/createSelect)) and
