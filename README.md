@@ -1,4 +1,4 @@
-### Case study 2: Data visualisation
+## Case study 2: Data visualisation
 
 Two example data visualisations are provided below.
 
@@ -9,7 +9,7 @@ implement similar visualisations in JavaScript using p5.js.
 
 ![diversity-race](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/diversity-race-facebook.svg)
 
-#### Tasks
+### Tasks
 
 Download the data vis project template from the bottom of this page
 and look over the code.
@@ -83,7 +83,7 @@ Complete the `draw()` function in `tech-diversity-race.js`.
 
 ### Further work
 
-The following two visualisation are on the same topics, and the data
+The following two visualisations are on the same topics, and the data
 is available in the template project. Try and create similar
 visualisations in p5.
 
