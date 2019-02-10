@@ -1,6 +1,6 @@
 $(function() {
-  $('#figure-menu').menu({
+  $('#visuals-menu').menu({
     select: function(event, ui) {
-      gallery.selectFigure(ui.item.attr('value'));
+      gallery.selectVisual(ui.item.attr('value'));
     }});
 });

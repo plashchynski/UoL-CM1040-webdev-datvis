@@ -13,15 +13,15 @@ function setup() {
   gallery = new Gallery();
 
   // Add the visualisation objects here.
-  gallery.addFigure(new TechDiversityRace());
-  gallery.addFigure(new TechDiversityGender());
-  gallery.addFigure(new PayGapByJob2017());
-  gallery.addFigure(new PayGapTimeSeries());
+  gallery.addVisual(new TechDiversityRace());
+  gallery.addVisual(new TechDiversityGender());
+  gallery.addVisual(new PayGapByJob2017());
+  gallery.addVisual(new PayGapTimeSeries());
 }
 
 function draw() {
   background(255);
-  if (gallery.selectedFigure != null) {
-    gallery.selectedFigure.draw();
+  if (gallery.selectedVisual != null) {
+    gallery.selectedVisual.draw();
   }
 }

@@ -1,23 +1,23 @@
 function Gallery() {
 
-  this.figures = [];
-  this.selectedFigure = null;
+  this.visuals = [];
+  this.selectedVisual = null;
 
-  // Add a new figure to the navigation bar.
-  this.addFigure = function(fig) {
+  // Add a new visualisation to the navigation bar.
+  this.addVisual = function(vis) {
 
-    // Check that the figure object has an id and name.
-    if (!fig.hasOwnProperty('id')
-        && !fig.hasOwnProperty('name')) {
-      alert('Make sure your figure has an id and name!');
+    // Check that the vis object has an id and name.
+    if (!vis.hasOwnProperty('id')
+        && !vis.hasOwnProperty('name')) {
+      alert('Make sure your visualisation has an id and name!');
     }
 
-    // Check that the figure object has a unique id.
-    if (this.findFigureIndex(fig.id) != null) {
-      alert(`Figure '${fig.name}' has a duplicate id: '${fig.id}'`);
+    // Check that the vis object has a unique id.
+    if (this.findVisIndex(vis.id) != null) {
+      alert(`Vis '${vis.name}' has a duplicate id: '${vis.id}'`);
     }
 
-    this.figures.push(fig);
+    this.visuals.push(vis);
 
     // Create menu item.
     var menuItem = document.createElement('li');
@@ -26,47 +26,47 @@ function Gallery() {
     var menuItemWrapper = document.createElement('div');
     menuItemWrapper.classList.add('ui-menu-item-wrapper');
     menuItemWrapper.setAttribute('role', 'menuitem');
-    menuItemWrapper.innerHTML = fig.name;
+    menuItemWrapper.innerHTML = vis.name;
 
-    menuItem.setAttribute('value', fig.id);
+    menuItem.setAttribute('value', vis.id);
 
     menuItem.appendChild(menuItemWrapper);
-    $('#figure-menu').append(menuItem);
+    $('#visuals-menu').append(menuItem);
 
     // Preload data if necessary.
-    if (fig.hasOwnProperty('preload')) {
-      fig.preload();
+    if (vis.hasOwnProperty('preload')) {
+      vis.preload();
     }
   };
 
-  this.findFigureIndex = function(figId) {
-    // Search through the figures looking for one with the id
-    // matching figId.
-    for (var i = 0; i < this.figures.length; i++) {
-      if (this.figures[i].id == figId) {
+  this.findVisIndex = function(visId) {
+    // Search through the visualisations looking for one with the id
+    // matching visId.
+    for (var i = 0; i < this.visuals.length; i++) {
+      if (this.visuals[i].id == visId) {
         return i;
       }
     }
 
-    // Figure not found.
+    // Visualisation not found.
     return null;
   };
 
-  this.selectFigure = function(figId){
-    var figureIndex = this.findFigureIndex(figId);
+  this.selectVisual = function(visId){
+    var visIndex = this.findVisIndex(visId);
 
-    if (figureIndex != null) {
-      // If the figure has a deselect method run it.
-      if (this.selectedFigure != null
-          && this.selectedFigure.hasOwnProperty('destroy')) {
-        this.selectedFigure.destroy();
+    if (visIndex != null) {
+      // If the current visualisation has a deselect method run it.
+      if (this.selectedVisual != null
+          && this.selectedVisual.hasOwnProperty('destroy')) {
+        this.selectedVisual.destroy();
       }
-      // Select the figure in the gallery.
-      this.selectedFigure = this.figures[figureIndex];
+      // Select the visualisation in the gallery.
+      this.selectedVisual = this.visuals[visIndex];
 
       // Initialise visualisation if necessary.
-      if (this.selectedFigure.hasOwnProperty('setup')) {
-        this.selectedFigure.setup();
+      if (this.selectedVisual.hasOwnProperty('setup')) {
+        this.selectedVisual.setup();
       }
     }
   };
