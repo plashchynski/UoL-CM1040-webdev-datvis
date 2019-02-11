@@ -45,11 +45,9 @@ Arrays must be the same length!`);
       }
       fill(colour);
 
-      arc(
-        this.x, this.y,
-        this.diameter, this.diameter,
-        lastAngle, lastAngle + angles[i] + 0.001 // Hack for 0!
-      );
+      arc(this.x, this.y,
+          this.diameter, this.diameter,
+          lastAngle, lastAngle + angles[i] + 0.001); // Hack for 0!
 
       if (labels) {
         this.makeLegendItem(labels[i], i, colour);

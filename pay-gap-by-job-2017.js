@@ -93,20 +93,15 @@ function PayGapByJob2017() {
 
   this.addAxes = function () {
     // Add vertical line.
-    line(
-      width / 2,
-      0 + this.pad,
-      width / 2,
-      height - this.pad
-    );
+    line(width / 2,
+         0 + this.pad,
+         width / 2,
+         height - this.pad);
 
     // Add horizontal line.
-    line(
-      0 + this.pad,
-      height / 2,
-      width - this.pad,
-      height / 2
-    );
-
+    line(0 + this.pad,
+         height / 2,
+         width - this.pad,
+         height / 2);
   };
 }
