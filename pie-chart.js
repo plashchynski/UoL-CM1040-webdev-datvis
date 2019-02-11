@@ -43,7 +43,10 @@ Arrays must be the same length!`);
       } else {
         colour = map(i, 0, data.length, 0, 255);
       }
+
       fill(colour);
+      stroke(0);
+      strokeWeight(1);
 
       arc(this.x, this.y,
           this.diameter, this.diameter,
@@ -57,6 +60,7 @@ Arrays must be the same length!`);
     }
 
     if (title) {
+      noStroke();
       textAlign('center');
       textSize(24);
       text(title, this.x, this.y - this.diameter * 0.6);
@@ -71,6 +75,7 @@ Arrays must be the same length!`);
     rect(x, y, -10, -10);
 
     fill('black');
+    noStroke();
     textAlign('left');
     textSize(12);
     text(label, x + 10, y);
