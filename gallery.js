@@ -55,6 +55,10 @@ function Gallery() {
   this.selectVisual = function(visId){
     var visIndex = this.findVisIndex(visId);
 
+    // Enable animation in case it has been paused by the current
+    // visualisation.
+    loop();
+
     if (visIndex != null) {
       // If the current visualisation has a deselect method run it.
       if (this.selectedVisual != null
