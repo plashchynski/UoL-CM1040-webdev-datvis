@@ -11,6 +11,12 @@ function sum(data) {
   return total;
 }
 
+function mean(data) {
+  var total = sum(data);
+
+  return total / data.length;
+}
+
 function sliceRowNumbers (row, start=0, end) {
   var rowData = [];
 
