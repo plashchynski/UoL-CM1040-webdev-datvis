@@ -1,92 +1,103 @@
+## IDEAS
+
+- diversity: gender
+  - sorted stacked bar
+- pay gap animation
+- global surface temperature
+
+
 ## Case study 2: Data visualisation
-
-Two example data visualisations are provided below.
-
-These visualisations were created with Python. The task today is to
-implement similar visualisations in JavaScript using p5.js.
-
-![paygapByJob2017](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/pay-gap-by-job-2017.svg)
-
-![diversity-race](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/diversity-race-facebook.svg)
 
 ### Tasks
 
 Download the data vis project template from the bottom of this page
 and look over the code.
 
-#### Pay gap by job 2017
+#### Tech diversity: Gender [2 marks]
 
-Read through the file `pay-gap-by-job-2017.js`.
+![tech-diversity-gender](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/tech-diversity-gender.png)
 
-At line 75, complete the `for` loop that draws all of the data points
-on the canvas.
-
-    - x = proportion of female employees.
-    - y = pay gap
-    - size = number of jobs
-
-#### Tech diversity: Race
-
-Complete the `draw()` function in `tech-diversity-race.js`.
+Complete the `draw()` method to create a stacked bar chart by adding
+the proportion of men employed at each company.
 
 1. Look up the documentation for [Table](https://p5js.org/reference/#/p5.Table).
 
-2. Look at the raw data: `./data/tech-diversity/race-2018.csv`. Maybe
+2. Look at the raw data: `./data/tech-diversity/gender-2018.csv`. Maybe
    in a spreadsheet program.
 
 3. Extract the relevant data from the table (`this.data`) and store it
-   in the variables required by the `PieChart` `draw` method (`col`,
-   `labels`). Check each variable contains the correct data using
-   `console.log`.
+   in the `company` variable.
 
-4. Create a `colours` array containing colour values that will be used
-   to specify the respective colour of each pie chart segment.
+4. Look at how the rectangle representing the proportion of female
+   employees is defined. Draw a rectangle representing the male
+   proportion using the parameters and methods defined in this
+   object.
 
-5. Create a title for your plot and assign it to the `title`
-   variable. You should build a string using the `companyName`
-   variable so that the title will automatically contain the correct
-   company name when a different company is selected.
+#### Pay gap 1997–2017 [2 marks]
 
-6. Pass all your variables to the `PieChart` `draw` method.
+![paygapByJob2017](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/pay-gap-1997-2017.png)
 
-7. Based on the p5.js example
-   [here](https://p5js.org/examples/form-pie-chart.html), complete the
-   draw method in `pie-chart.js`. Your method should be better than
-   this example! It should be able to use all of the parameter
-   (`data`, `labels`, `colours`, `title`) and plot them correctly on
-   the canvas. Display the `labels` data alongside the pie chart in a
-   legend showing the viewer which colour in the chart corresponds to
-   each race.
+Complete the `draw()` method to create a line graph representing the
+pay gap between female and male employees.
 
-    Note the following hack.
+1. Look at the raw data:
+   `./data/pay-gap/all-employees-hourly-pay-by-gender-1997-2017.csv`. Maybe
+   in a spreadsheet program.
 
-    ``` js
-        arc(
-            this.x, this.y,
-            this.diameter, this.diameter,
-            lastAngle, lastAngle + angles[i] + 0.001 // Hack for 0!
-        );
-    ```
+2. Extract the relevant data from the table (`this.data`) and store it
+   in the `current` variable.
 
-    - Advanced version: Instead of a legend, try plotting the labels
-      next to the corresponding slice.
+3. Complete the `mapPayGapToHeight()` method. Look at how `mapYearToWidth()`
+   works.
 
-8. Create a select DOM element using p5.dom.js (see
+4. Complete the `line()` function in the `draw()` method to plot the
+   pay gap over time. You will need to use both `mapPayGapToHeight()`
+   and `mapYearToWidth()` methods.
+
+#### Climate change [2 marks]
+
+![climateChange](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/climate-change.png)
+
+1. Using the `mapTemperatureToColour()` method set the `fill()` in the
+   `draw()` method. You need to pass the current temperature to this
+   method to get the correct colour.
+
+2. Complete the `rect()` function below the `fill()` to create a
+   gradient effect background (thinly-sliced rectangles across the
+   x-axis). All of the values you need are already calculated within
+   this visualisation object – you need to find them!
+
+#### Tech diversity: Race [2 marks]
+
+![tech-diversity-race](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/tech-diversity-race.png)
+
+Complete the `draw()` function in `tech-diversity-race.js`.
+
+1. Look at the raw data: `./data/tech-diversity/race-2018.csv`. Maybe
+   in a spreadsheet program.
+
+2. Create a select DOM element using p5.dom.js (see
    [`createSelect`](https://p5js.org/reference/#/p5/createSelect)) and
    populate the options programmatically using the company names
    obtained from `this.data`.
    - Hint: you need a `for` loop.
 
-9. Test that when selecting a company name from the list the correct
+3. Change the hard-coded company name to get the value from the
+   select.
+
+4. Test that when selecting a company name from the list the correct
    data is visualised on the canvas and the correct title is
    generated.
 
-### Further work
+#### Pay gap by job 2017 [2 marks]
 
-The following two visualisations are on the same topics, and the data
-is available in the template project. Try and create similar
-visualisations in p5.
+![paygapByJob2017](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/pay-gap-by-job.png)
 
-![diversity-gender](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/diversity-tech-gender.svg)
+Read through the file `pay-gap-by-job-2017.js`.
 
-![payGapTimeSeries](https://www.doc.gold.ac.uk/~jfort010/ip/case-studies/data-vis/figures/pay-gap-timeseries.svg)
+At line 80, complete the `for` loop that draws all of the data points
+on the canvas as ellipses with the following properties.
+
+    - x = proportion of female employees.
+    - y = pay gap
+    - size = number of jobs
