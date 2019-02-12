@@ -88,9 +88,8 @@ function ClimateChange() {
       return;
     }
 
-    //this.startSlider.elt.max = this.endSlider.value() - 1;
-    //this.endSlider.elt.min = this.startSlider.value() + 1;
-    if (this.startSlider.value() > this.endSlider.value()) {
+    // Prevent slider ranges overlapping.
+    if (this.startSlider.value() >= this.endSlider.value()) {
       this.startSlider.value(this.endSlider.value() - 1);
     }
     this.startYear = this.startSlider.value();
