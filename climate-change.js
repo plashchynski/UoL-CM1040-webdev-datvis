@@ -110,20 +110,21 @@ function ClimateChange() {
          this.mapTemperatureToHeight(this.meanTemperature));
 
     // Plot all temperatures between startYear and endYear using the
-    // width of the canvas minus left margin.
+    // width of the canvas minus margins.
     var previousYear;
     var numYears = this.endYear - this.startYear;
     var segmentWidth = (this.rightMargin - this.leftMargin) / numYears;
 
-    // Count the number of years we have plotted each frame to create
+    // Count the number of years plotted each frame to create
     // animation effect.
     var yearCount = 0;
 
     // Loop over all rows but only plot those in range.
     for (var i = 0; i < this.data.getRowCount(); i++) {
 
-      // Create an object to store data for current year.
+      // Create an object to store data for the current year.
       var currentYear = {
+        // Convert strings to numbers.
         'date': this.data.getNum(i, 'date'),
         'temperature': this.data.getNum(i, 'temperature')
       };
@@ -151,9 +152,17 @@ function ClimateChange() {
 
         // The number of x-axis labels to skip so that only
         // numXTickLabels are drawn.
-        var xLabelSkip = ceil((this.endYear - this.startYear) / this.numXTickLabels);
+        var xLabelSkip = ceil(numYears / this.numXTickLabels);
 
+        // Draw the tick label marking the start of the previous year.
         if (yearCount % xLabelSkip == 0) {
+          this.drawXAxisTickLabel(previousYear.date);
+        }
+
+        // When six or fewer years are displayed also draw the final
+        // year x tick label.
+        if ((numYears <= 6
+             && yearCount == numYears - 1)) {
           this.drawXAxisTickLabel(currentYear.date);
         }
 
