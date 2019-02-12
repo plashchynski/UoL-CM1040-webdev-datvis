@@ -7,12 +7,32 @@ function TechDiversityGender() {
   // characters.
   this.id = 'tech-diversity-gender';
 
-  // Locations of margin positions.
-  this.pad = 5;
-  this.leftMargin = 130;
-  this.topMargin = 30;
-  this.plotWidth = width - this.leftMargin;
-  this.midX = (this.plotWidth / 2) + this.leftMargin;
+  // Layout object to store all common plot layout parameters and
+  // methods.
+  this.layout = {
+    // Locations of margin positions. Left and bottom have double margin
+    // size due to axis and tick labels.
+    leftMargin: 130,
+    rightMargin: width,
+    topMargin: 30,
+    bottomMargin: height,
+    pad: 5,
+
+    plotWidth: function() {
+      return this.rightMargin - this.leftMargin;
+    },
+
+    // Boolean to enable/disable background grid.
+    grid: true,
+
+    // Number of axis tick labels to draw so that they are not drawn on
+    // top of one another.
+    numXTickLabels: 10,
+    numYTickLabels: 8,
+  };
+
+  // Middle of the plot: for 50% line.
+  this.midX = (this.layout.plotWidth() / 2) + this.layout.leftMargin;
 
   // Default visualisation colours.
   this.femaleColour = color(255, 0 ,0);
@@ -52,12 +72,13 @@ function TechDiversityGender() {
     // Draw Female/Male labels at the top of the plot.
     this.drawCategoryLabels();
 
-    var lineHeight = (height - this.topMargin) / this.data.getRowCount();
+    var lineHeight = (height - this.layout.topMargin) /
+        this.data.getRowCount();
 
     for (var i = 0; i < this.data.getRowCount(); i++) {
 
       // Calculate the y position for each company.
-      var lineY = (lineHeight * i) + this.topMargin;
+      var lineY = (lineHeight * i) + this.layout.topMargin;
 
       // Create an object to store data for the current company.
       var company = {
@@ -72,31 +93,31 @@ function TechDiversityGender() {
       noStroke();
       textAlign('right', 'top');
       text(company.name,
-           this.leftMargin - this.pad,
+           this.layout.leftMargin - this.layout.pad,
            lineY);
 
       // Draw female rectangle.
       fill(this.femaleColour);
-      rect(this.leftMargin,
+      rect(this.layout.leftMargin,
            lineY,
            this.mapPercentToWidth(company.female),
-           lineHeight - this.pad);
+           lineHeight - this.layout.pad);
 
       // Draw male rectangle.
       fill(this.maleColour);
-      rect(this.leftMargin + this.mapPercentToWidth(company.female),
+      rect(this.layout.leftMargin + this.mapPercentToWidth(company.female),
            lineY,
            this.mapPercentToWidth(company.male),
-           lineHeight - this.pad);
+           lineHeight - this.layout.pad);
     }
 
     // Draw 50% line
     stroke(150);
     strokeWeight(1);
     line(this.midX,
-         this.topMargin,
+         this.layout.topMargin,
          this.midX,
-         height);
+         this.layout.bottomMargin);
 
   };
 
@@ -105,16 +126,16 @@ function TechDiversityGender() {
     noStroke();
     textAlign('left', 'top');
     text('Female',
-         this.leftMargin,
-         this.pad);
+         this.layout.leftMargin,
+         this.layout.pad);
     textAlign('center', 'top');
     text('50%',
          this.midX,
-         this.pad);
+         this.layout.pad);
     textAlign('right', 'top');
     text('Male',
-         width,
-         this.pad);
+         this.layout.rightMargin,
+         this.layout.pad);
   };
 
   this.mapPercentToWidth = function(percent) {
@@ -122,6 +143,6 @@ function TechDiversityGender() {
                0,
                100,
                0,
-               this.plotWidth);
+               this.layout.plotWidth());
   };
 }

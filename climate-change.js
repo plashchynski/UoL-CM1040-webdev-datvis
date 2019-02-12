@@ -11,19 +11,33 @@ function ClimateChange() {
   this.xAxisLabel = 'year';
   this.yAxisLabel = '℃';
 
-  // Number of axis tick labels to draw so that they are not drawn on
-  // top of one another.
-  this.numXTickLabels = 8;
-  this.numYTickLabels = 8;
+  var marginSize = 35;
 
-  // Locations of margin positions. Left and bottom have double pad
-  // due to axis and tick labels.
-  this.marginSize = 35;
-  this.leftMargin = this.marginSize * 2;
-  this.rightMargin = width - this.marginSize;
-  this.plotWidth = this.rightMargin - this.leftMargin;
-  this.topMargin = this.marginSize;
-  this.bottomMargin = height - this.marginSize * 2;
+  // Layout object to store all common plot layout parameters and
+  // methods.
+  this.layout = {
+    marginSize: marginSize,
+
+    // Locations of margin positions. Left and bottom have double margin
+    // size due to axis and tick labels.
+    leftMargin: marginSize * 2,
+    rightMargin: width - marginSize,
+    topMargin: marginSize,
+    bottomMargin: height - marginSize * 2,
+    pad: 5,
+
+    plotWidth: function() {
+      return this.rightMargin - this.leftMargin;
+    },
+
+    // Boolean to enable/disable background grid.
+    grid: false,
+
+    // Number of axis tick labels to draw so that they are not drawn on
+    // top of one another.
+    numXTickLabels: 8,
+    numYTickLabels: 8,
+  };
 
   // Property to represent whether data has been loaded.
   this.loaded = false;
@@ -94,25 +108,34 @@ function ClimateChange() {
     this.startYear = this.startSlider.value();
     this.endYear = this.endSlider.value();
 
-    // Draw both x and y axis labels.
-    this.drawAxisLabels();
-
     // Draw all y-axis tick labels.
-    this.drawYAxisTickLabels();
+    drawYAxisLabels(this.minTemperature,
+                    this.maxTemperature,
+                    this.layout,
+                    this.mapTemperatureToHeight.bind(this),
+                    1);
+
+    // Draw x and y axis.
+    drawAxis(this.layout);
+
+    // Draw x and y axis labels.
+    drawAxisLabels(this.xAxisLabel,
+                   this.yAxisLabel,
+                   this.layout);
 
     // Plot average line.
     stroke(200);
     strokeWeight(1);
-    line(this.leftMargin,
+    line(this.layout.leftMargin,
          this.mapTemperatureToHeight(this.meanTemperature),
-         this.rightMargin,
+         this.layout.rightMargin,
          this.mapTemperatureToHeight(this.meanTemperature));
 
     // Plot all temperatures between startYear and endYear using the
     // width of the canvas minus margins.
     var previous;
     var numYears = this.endYear - this.startYear;
-    var segmentWidth = this.plotWidth / numYears;
+    var segmentWidth = this.layout.plotWidth() / numYears;
 
     // Count the number of years plotted each frame to create
     // animation effect.
@@ -137,9 +160,9 @@ function ClimateChange() {
         noStroke();
         fill(this.mapTemperatureToColour(current.temperature));
         rect(this.mapYearToWidth(previous.year),
-             this.topMargin,
+             this.layout.topMargin,
              segmentWidth,
-             this.bottomMargin - this.topMargin);
+             this.layout.bottomMargin - this.layout.topMargin);
 
         // Draw line segment connecting previous year to current
         // year temperature.
@@ -151,18 +174,20 @@ function ClimateChange() {
 
         // The number of x-axis labels to skip so that only
         // numXTickLabels are drawn.
-        var xLabelSkip = ceil(numYears / this.numXTickLabels);
+        var xLabelSkip = ceil(numYears / this.layout.numXTickLabels);
 
         // Draw the tick label marking the start of the previous year.
         if (yearCount % xLabelSkip == 0) {
-          this.drawXAxisTickLabel(previous.year);
+          drawXAxisLabel(previous.year, this.layout,
+                         this.mapYearToWidth.bind(this));
         }
 
         // When six or fewer years are displayed also draw the final
         // year x tick label.
         if ((numYears <= 6
              && yearCount == numYears - 1)) {
-          this.drawXAxisTickLabel(current.year);
+          drawXAxisLabel(current.year, this.layout,
+                         this.mapYearToWidth.bind(this));
         }
 
         yearCount++;
@@ -192,62 +217,28 @@ function ClimateChange() {
     }
   };
 
-  this.drawAxisLabels = function() {
-    fill(0);
-    noStroke();
-
-    // Draw x-axis label.
-    text(this.xAxisLabel,
-         (this.plotWidth / 2) + this.leftMargin,
-         this.bottomMargin + (this.marginSize * 1.5));
-
-    // Draw y-axis label.
-    push();
-    translate(this.leftMargin - (this.marginSize * 1.5), this.bottomMargin / 2);
-    rotate(- PI / 2);
-    text(this.yAxisLabel, 0, 0);
-    pop();
-
-  };
-
-  this.drawYAxisTickLabels = function() {
-    fill(0);
-    noStroke();
-
-    var temperatureRange = this.maxTemperature - this.minTemperature;
-    var yLabelStep = temperatureRange / this.numYTickLabels;
-
-    // Draw all axis tick labels.
-    for (i = 0; i <= this.numYTickLabels; i++) {
-      var temperature = this.minTemperature + (i * yLabelStep);
-      text(temperature.toFixed(1),
-           this.leftMargin - this.marginSize / 2,
-           this.mapTemperatureToHeight(temperature));
-    }
-  };
-
   this.drawXAxisTickLabel = function(year) {
     fill(0);
     noStroke();
     text(year,
          this.mapYearToWidth(year),
-         this.bottomMargin + this.marginSize / 2);
+         this.layout.bottomMargin + this.layout.marginSize / 2);
   };
 
   this.mapYearToWidth = function(value) {
     return map(value,
                this.startYear,
                this.endYear,
-               this.leftMargin,   // Draw left-to-right from margin.
-               this.rightMargin);
+               this.layout.leftMargin,   // Draw left-to-right from margin.
+               this.layout.rightMargin);
   };
 
   this.mapTemperatureToHeight = function(value) {
     return map(value,
                this.minTemperature,
                this.maxTemperature,
-               this.bottomMargin, // Lower temperature at bottom.
-               this.topMargin);   // Higher temperature at top.
+               this.layout.bottomMargin, // Lower temperature at bottom.
+               this.layout.topMargin);   // Higher temperature at top.
   };
 
   this.mapTemperatureToColour = function(value) {
