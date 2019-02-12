@@ -7,9 +7,6 @@ function ClimateChange() {
   // characters.
   this.id = 'climate-change';
 
-  // Property to represent whether data has been loaded.
-  this.loaded = false;
-
   // Names for each axis.
   this.xAxisLabel = 'year';
   this.yAxisLabel = '℃';
@@ -26,6 +23,9 @@ function ClimateChange() {
   this.rightMargin = width - this.pad;
   this.topMargin = this.pad;
   this.bottomMargin = height - this.pad * 2;
+
+  // Property to represent whether data has been loaded.
+  this.loaded = false;
 
   // Preload the data. This function is called automatically by the
   // gallery when a visualisation is added.
@@ -49,10 +49,6 @@ function ClimateChange() {
     this.minYear = this.data.getNum(0, 'date');
     this.maxYear = this.data.getNum(this.data.getRowCount() - 1, 'date');
 
-    // Default to visualise full range.
-    //this.startYear = this.minYear;
-    this.endYear = this.maxYear;
-
     // Find min and max temperature for mapping to canvas height.
     this.minTemperature = min(this.data.getColumn('temperature'));
     this.maxTemperature = max(this.data.getColumn('temperature'));
@@ -64,6 +60,8 @@ function ClimateChange() {
     // started so that we can animate the plot.
     this.frameCount = 0;
 
+    // Create sliders to control start and end years. Default to
+    // visualise full range.
     this.startSlider = createSlider(this.minYear,
                                     this.maxYear - 1,
                                     this.minYear,
