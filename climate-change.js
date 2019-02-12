@@ -46,9 +46,9 @@ function ClimateChange() {
     textSize(16);
     textAlign('center', 'center');
 
-    // Set min and max years: assumes data is sorted by date.
-    this.minYear = this.data.getNum(0, 'date');
-    this.maxYear = this.data.getNum(this.data.getRowCount() - 1, 'date');
+    // Set min and max years: assumes data is sorted by year.
+    this.minYear = this.data.getNum(0, 'year');
+    this.maxYear = this.data.getNum(this.data.getRowCount() - 1, 'year');
 
     // Find min and max temperature for mapping to canvas height.
     this.minTemperature = min(this.data.getColumn('temperature'));
@@ -110,7 +110,7 @@ function ClimateChange() {
 
     // Plot all temperatures between startYear and endYear using the
     // width of the canvas minus margins.
-    var previousYear;
+    var previous;
     var numYears = this.endYear - this.startYear;
     var segmentWidth = (this.rightMargin - this.leftMargin) / numYears;
 
@@ -122,21 +122,21 @@ function ClimateChange() {
     for (var i = 0; i < this.data.getRowCount(); i++) {
 
       // Create an object to store data for the current year.
-      var currentYear = {
+      var current = {
         // Convert strings to numbers.
-        'date': this.data.getNum(i, 'date'),
+        'year': this.data.getNum(i, 'year'),
         'temperature': this.data.getNum(i, 'temperature')
       };
 
-      if (previousYear != null
-          && currentYear.date > this.startYear
-          && currentYear.date <= this.endYear) {
+      if (previous != null
+          && current.year > this.startYear
+          && current.year <= this.endYear) {
 
         // Draw background gradient to represent colour temperature of
         // the current year.
         noStroke();
-        fill(this.mapTemperatureToColour(currentYear.temperature));
-        rect(this.mapYearToWidth(previousYear.date),
+        fill(this.mapTemperatureToColour(current.temperature));
+        rect(this.mapYearToWidth(previous.year),
              this.topMargin,
              segmentWidth,
              this.bottomMargin - this.topMargin);
@@ -144,10 +144,10 @@ function ClimateChange() {
         // Draw line segment connecting previous year to current
         // year temperature.
         stroke(0);
-        line(this.mapYearToWidth(previousYear.date),
-             this.mapTemperatureToHeight(previousYear.temperature),
-             this.mapYearToWidth(currentYear.date),
-             this.mapTemperatureToHeight(currentYear.temperature));
+        line(this.mapYearToWidth(previous.year),
+             this.mapTemperatureToHeight(previous.temperature),
+             this.mapYearToWidth(current.year),
+             this.mapTemperatureToHeight(current.temperature));
 
         // The number of x-axis labels to skip so that only
         // numXTickLabels are drawn.
@@ -155,14 +155,14 @@ function ClimateChange() {
 
         // Draw the tick label marking the start of the previous year.
         if (yearCount % xLabelSkip == 0) {
-          this.drawXAxisTickLabel(previousYear.date);
+          this.drawXAxisTickLabel(previous.year);
         }
 
         // When six or fewer years are displayed also draw the final
         // year x tick label.
         if ((numYears <= 6
              && yearCount == numYears - 1)) {
-          this.drawXAxisTickLabel(currentYear.date);
+          this.drawXAxisTickLabel(current.year);
         }
 
         yearCount++;
@@ -178,7 +178,7 @@ function ClimateChange() {
       // Assign current year to previous year so that it is available
       // during the next iteration of this loop to give us the start
       // position of the next line segment.
-      previousYear = currentYear;
+      previous = current;
     }
 
     // Count the number of frames since this visualisation
@@ -226,11 +226,11 @@ function ClimateChange() {
     }
   };
 
-  this.drawXAxisTickLabel = function(date) {
+  this.drawXAxisTickLabel = function(year) {
     fill(0);
     noStroke();
-    text(date,
-         this.mapYearToWidth(date),
+    text(year,
+         this.mapYearToWidth(year),
          this.bottomMargin + this.marginSize / 2);
   };
 
