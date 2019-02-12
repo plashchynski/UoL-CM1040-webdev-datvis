@@ -33,6 +33,10 @@ function PayGapTimeSeries() {
       return this.rightMargin - this.leftMargin;
     },
 
+    plotHeight: function() {
+      return this.bottomMargin - this.topMargin;
+    },
+
     // Boolean to enable/disable background grid.
     grid: true,
 

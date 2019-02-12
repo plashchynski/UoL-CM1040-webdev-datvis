@@ -30,6 +30,10 @@ function ClimateChange() {
       return this.rightMargin - this.leftMargin;
     },
 
+    plotHeight: function() {
+      return this.bottomMargin - this.topMargin;
+    },
+
     // Boolean to enable/disable background grid.
     grid: false,
 
@@ -162,7 +166,7 @@ function ClimateChange() {
         rect(this.mapYearToWidth(previous.year),
              this.layout.topMargin,
              segmentWidth,
-             this.layout.bottomMargin - this.layout.topMargin);
+             this.layout.plotHeight());
 
         // Draw line segment connecting previous year to current
         // year temperature.
