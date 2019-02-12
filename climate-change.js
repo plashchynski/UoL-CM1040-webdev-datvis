@@ -112,7 +112,7 @@ function ClimateChange() {
     // width of the canvas minus margins.
     var previous;
     var numYears = this.endYear - this.startYear;
-    var segmentWidth = (this.rightMargin - this.leftMargin) / numYears;
+    var segmentWidth = this.plotWidth / numYears;
 
     // Count the number of years plotted each frame to create
     // animation effect.
