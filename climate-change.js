@@ -18,11 +18,12 @@ function ClimateChange() {
 
   // Locations of margin positions. Left and bottom have double pad
   // due to axis and tick labels.
-  this.pad = 35;
-  this.leftMargin = this.pad * 2;
-  this.rightMargin = width - this.pad;
-  this.topMargin = this.pad;
-  this.bottomMargin = height - this.pad * 2;
+  this.marginSize = 35;
+  this.leftMargin = this.marginSize * 2;
+  this.rightMargin = width - this.marginSize;
+  this.plotWidth = this.rightMargin - this.leftMargin;
+  this.topMargin = this.marginSize;
+  this.bottomMargin = height - this.marginSize * 2;
 
   // Property to represent whether data has been loaded.
   this.loaded = false;
@@ -197,12 +198,12 @@ function ClimateChange() {
 
     // Draw x-axis label.
     text(this.xAxisLabel,
-         ((this.rightMargin - this.leftMargin) / 2) + this.leftMargin,
-         this.bottomMargin + (this.pad * 1.5));
+         (this.plotWidth / 2) + this.leftMargin,
+         this.bottomMargin + (this.marginSize * 1.5));
 
     // Draw y-axis label.
     push();
-    translate(this.leftMargin - (this.pad * 1.5), this.bottomMargin / 2);
+    translate(this.leftMargin - (this.marginSize * 1.5), this.bottomMargin / 2);
     rotate(- PI / 2);
     text(this.yAxisLabel, 0, 0);
     pop();
@@ -220,7 +221,7 @@ function ClimateChange() {
     for (i = 0; i <= this.numYTickLabels; i++) {
       var temperature = this.minTemperature + (i * yLabelStep);
       text(temperature.toFixed(1),
-           this.leftMargin - this.pad / 2,
+           this.leftMargin - this.marginSize / 2,
            this.mapTemperatureToHeight(temperature));
     }
   };
@@ -230,7 +231,7 @@ function ClimateChange() {
     noStroke();
     text(date,
          this.mapYearToWidth(date),
-         this.bottomMargin + this.pad / 2);
+         this.bottomMargin + this.marginSize / 2);
   };
 
   this.mapYearToWidth = function(value) {
