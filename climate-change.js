@@ -75,10 +75,11 @@ function ClimateChange() {
                                   this.maxYear,
                                   1);
     this.endSlider.position(600, 10);
-
   };
 
   this.destroy = function() {
+    this.startSlider.remove();
+    this.endSlider.remove();
   };
 
   this.draw = function() {
