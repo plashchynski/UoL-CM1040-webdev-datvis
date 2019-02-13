@@ -10,7 +10,7 @@ All visualisations are stored in the `gallery` global variable. This
 variable can be used for debugging in the console to access properties
 and methods defined within each visualisation.
 
-Lines you need to complete in this case study are marked *???*.
+Lines you need to complete in this case study are marked **???**.
 
 #### Tech diversity: Gender [2 marks]
 
