@@ -33,6 +33,8 @@ each company.
    - Hint: Look up the `getString()` and `getNum()` table methods, and
      use the appropriate method to ensure the data is parsed
      correctly.
+   - Check that bars representing the proportion of female employees
+     is correctly drawn on the plot.
 
 4. Look at how the rectangle representing the proportion of female
    employees is defined. Draw a rectangle representing the male
