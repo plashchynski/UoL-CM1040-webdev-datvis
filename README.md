@@ -59,6 +59,7 @@ employees over time.
 
 3. Complete the `mapPayGapToHeight()` method. Look at how `mapYearToWidth()`
    works.
+   - Check that the y-axis tick labels are drawn correctly.
 
 4. Complete the `line()` function in the `draw()` method to plot the
    pay gap over time. You will need to use both `mapYearToWidth()` and

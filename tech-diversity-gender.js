@@ -80,7 +80,7 @@ function TechDiversityGender() {
       // Calculate the y position for each company.
       var lineY = (lineHeight * i) + this.layout.topMargin;
 
-      // Create an object to store data from the current row.
+      // Create an object that stores data from the current row.
       var company = {
         // Convert strings to numbers.
         'name': this.data.getString(i, 'company'),
