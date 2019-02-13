@@ -78,8 +78,8 @@ function drawAxisLabels(xLabel, yLabel, layout) {
   pop();
 }
 
-function drawYAxisLabels(min, max, layout, mapFunction,
-                         decimalPlaces) {
+function drawYAxisTickLabels(min, max, layout, mapFunction,
+                             decimalPlaces) {
   // Map function must be passed with .bind(this).
   var range = max - min;
   var yTickStep = range / layout.numYTickLabels;
@@ -106,7 +106,7 @@ function drawYAxisLabels(min, max, layout, mapFunction,
   }
 }
 
-function drawXAxisLabel(value, layout, mapFunction) {
+function drawXAxisTickLabel(value, layout, mapFunction) {
   // Map function must be passed with .bind(this).
   var x = mapFunction(value);
 

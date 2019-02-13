@@ -113,11 +113,11 @@ function ClimateChange() {
     this.endYear = this.endSlider.value();
 
     // Draw all y-axis tick labels.
-    drawYAxisLabels(this.minTemperature,
-                    this.maxTemperature,
-                    this.layout,
-                    this.mapTemperatureToHeight.bind(this),
-                    1);
+    drawYAxisTickLabels(this.minTemperature,
+                        this.maxTemperature,
+                        this.layout,
+                        this.mapTemperatureToHeight.bind(this),
+                        1);
 
     // Draw x and y axis.
     drawAxis(this.layout);
@@ -182,16 +182,16 @@ function ClimateChange() {
 
         // Draw the tick label marking the start of the previous year.
         if (yearCount % xLabelSkip == 0) {
-          drawXAxisLabel(previous.year, this.layout,
-                         this.mapYearToWidth.bind(this));
+          drawXAxisTickLabel(previous.year, this.layout,
+                             this.mapYearToWidth.bind(this));
         }
 
         // When six or fewer years are displayed also draw the final
         // year x tick label.
         if ((numYears <= 6
              && yearCount == numYears - 1)) {
-          drawXAxisLabel(current.year, this.layout,
-                         this.mapYearToWidth.bind(this));
+          drawXAxisTickLabel(current.year, this.layout,
+                             this.mapYearToWidth.bind(this));
         }
 
         yearCount++;
@@ -219,14 +219,6 @@ function ClimateChange() {
     if (this.frameCount >= numYears) {
       //noLoop();
     }
-  };
-
-  this.drawXAxisTickLabel = function(year) {
-    fill(0);
-    noStroke();
-    text(year,
-         this.mapYearToWidth(year),
-         this.layout.bottomMargin + this.layout.marginSize / 2);
   };
 
   this.mapYearToWidth = function(value) {

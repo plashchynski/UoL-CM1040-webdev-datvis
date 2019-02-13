@@ -89,11 +89,11 @@ function PayGapTimeSeries() {
     this.drawTitle();
 
     // Draw all y-axis labels.
-    drawYAxisLabels(this.minPayGap,
-                    this.maxPayGap,
-                    this.layout,
-                    this.mapPayGapToHeight.bind(this),
-                    0);
+    drawYAxisTickLabels(this.minPayGap,
+                        this.maxPayGap,
+                        this.layout,
+                        this.mapPayGapToHeight.bind(this),
+                        0);
 
     // Draw x and y axis.
     drawAxis(this.layout);
@@ -134,8 +134,8 @@ function PayGapTimeSeries() {
 
         // Draw the tick label marking the start of the previous year.
         if (i % xLabelSkip == 0) {
-          drawXAxisLabel(previous.year, this.layout,
-                         this.mapYearToWidth.bind(this));
+          drawXAxisTickLabel(previous.year, this.layout,
+                             this.mapYearToWidth.bind(this));
         }
       }
 
