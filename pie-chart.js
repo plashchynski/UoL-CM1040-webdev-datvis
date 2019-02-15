@@ -3,7 +3,7 @@ function PieChart(x, y, diameter) {
   this.x = x;
   this.y = y;
   this.diameter = diameter;
-  this.labelSpace = 20;
+  this.labelSpace = 30;
 
   this.get_radians = function(data) {
     var total = sum(data);
@@ -61,7 +61,7 @@ Arrays must be the same length!`);
 
     if (title) {
       noStroke();
-      textAlign('center');
+      textAlign('center', 'center');
       textSize(24);
       text(title, this.x, this.y - this.diameter * 0.6);
     }
@@ -70,14 +70,16 @@ Arrays must be the same length!`);
   this.makeLegendItem = function(label, i, colour) {
     var x = this.x + 50 + this.diameter / 2;
     var y = this.y + (this.labelSpace * i) - this.diameter / 3;
+    var boxWidth = this.labelSpace / 2;
+    var boxHeight = this.labelSpace / 2;
 
     fill(colour);
-    rect(x, y, -10, -10);
+    rect(x, y, boxWidth, boxHeight);
 
     fill('black');
     noStroke();
-    textAlign('left');
+    textAlign('left', 'center');
     textSize(12);
-    text(label, x + 10, y);
+    text(label, x + boxWidth + 10, y + boxWidth / 2);
   };
 }
