@@ -2,6 +2,8 @@ function Gallery() {
 
   this.visuals = [];
   this.selectedVisual = null;
+  var self = this;
+
 
   // Add a new visualisation to the navigation bar.
   this.addVisual = function(vis) {
@@ -18,20 +20,47 @@ function Gallery() {
     }
 
     this.visuals.push(vis);
-
+      
+  
     // Create menu item.
-    var menuItem = document.createElement('li');
-    menuItem.classList.add('ui-menu-item');
-
-    var menuItemWrapper = document.createElement('div');
-    menuItemWrapper.classList.add('ui-menu-item-wrapper');
-    menuItemWrapper.setAttribute('role', 'menuitem');
-    menuItemWrapper.innerHTML = vis.name;
-
-    menuItem.setAttribute('value', vis.id);
-
-    menuItem.appendChild(menuItemWrapper);
-    $('#visuals-menu').append(menuItem);
+    var menuItem = createElement('li', vis.name);
+    menuItem.addClass('menu-item');
+    menuItem.id(vis.id);
+      
+    menuItem.mouseOver(function(e)
+    {
+        
+        var el = select('#' + e.srcElement.id);
+        el.addClass("hover");
+    })
+      
+    menuItem.mouseOut(function(e)
+    {
+        var el = select('#' + e.srcElement.id);
+        el.removeClass("hover");
+    })
+      
+    menuItem.mouseClicked(function(e)
+    {
+        //remove selected class from any other menu-items
+        
+        var menuItems = selectAll('.menu-item');
+        
+        for(var i = 0; i < menuItems.length; i++)
+        {
+            menuItems[i].removeClass('selected');
+        }
+        
+        var el = select('#' + e.srcElement.id);
+        el.addClass('selected');
+        
+        self.selectVisual(e.srcElement.id);
+        
+    })
+      
+      
+    var visMenu = select('#visuals-menu');
+    visMenu.child(menuItem);
 
     // Preload data if necessary.
     if (vis.hasOwnProperty('preload')) {
