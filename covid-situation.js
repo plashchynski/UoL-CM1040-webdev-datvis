@@ -31,34 +31,32 @@ function CovidSituation() {
     this.worldMapSource = loadStrings(
       'lib/BlankMap-World.svg',
       function () {
+        // parse map svg sources to DOM document
+        var parser = new DOMParser();
+        self.worldMapSvg = parser.parseFromString(self.worldMapSource.toString(), "image/svg+xml");
         self.worldMapSourceLoaded = true;
+
+        // reset map styles
+        self.worldMapSvg.querySelectorAll(".landxx,.subxx,.circlexx,.limitxx").forEach(function(el) {
+          el.style.stroke = "#ffffff";
+          el.style.strokeWidth = 0.5;
+          el.style.fillRule = "evenodd";
+          el.style.fill = "#c0c0c0";
+        });
       }
     );
   };
 
   this.render_map = function() {
-    self = this;
-
-    // parse map svg sources to DOM document
-    var parser = new DOMParser();
-    this.worldMapSvg = parser.parseFromString(this.worldMapSource.toString(), "image/svg+xml");
-
-
-    // reset map styles
-    this.worldMapSvg.querySelectorAll(".landxx").forEach(function(el) {
-      el.style.stroke = "#ffffff";
-      el.style.strokeWidth = 0.5;
-      el.style.fillRule = "evenodd";
-      el.style.fill = "#c0c0c0";
-    });
+    var self = this;
 
 
     // generate individual style for each country
     var mapData = [];
 
-    var lastDate = this.dailyConfirmedCovidCasesData.columns[this.dailyConfirmedCovidCasesData.columns.length-1];
-    var maxValue = max(this.dailyConfirmedCovidCasesData.getColumn(lastDate).map(Number));
-    var minValue = min(this.dailyConfirmedCovidCasesData.getColumn(lastDate).map(Number));
+    this.date = this.dailyConfirmedCovidCasesData.columns[this.dateSlider.value()+2];
+    var maxValue = max(this.dailyConfirmedCovidCasesData.getColumn(this.date).map(Number));
+    var minValue = min(this.dailyConfirmedCovidCasesData.getColumn(this.date).map(Number));
 
     this.dailyConfirmedCovidCasesData.rows.forEach(function(row) {
       var Alpha3CountryCode = row.getString("id");
@@ -66,12 +64,20 @@ function CovidSituation() {
       if (countryCodeRow) {
         var Alpha2CountryCode = countryCodeRow.getString("Alpha-2 code");
 
-        var value = Number(row.getNum(lastDate));
+        var countryCode = Alpha2CountryCode.toLowerCase();
 
+        self.worldMapSvg.querySelectorAll("#" + countryCode + ", #" + countryCode + " *").forEach(function(el) {
+          el.style.fill = "#c0c0c0";
+        });
+
+        var value = Number(row.getNum(self.date));
+        if (value <= 0) {
+          return;
+        }
         var c = color('red');
-        c.setAlpha(map(value, minValue, maxValue, 100, 255));
+        c.setAlpha(map(value, minValue, maxValue, 50, 255));
         mapData.push({
-          countryCode: Alpha2CountryCode.toLowerCase(),
+          countryCode: countryCode,
           colour: c.toString()
         });
       }
@@ -79,9 +85,7 @@ function CovidSituation() {
 
     // set country individual styles
     mapData.forEach(function(countryData) {
-      self.worldMapSvg.querySelector("#" + countryData.countryCode).style.fill = countryData.colour;
-
-      self.worldMapSvg.querySelectorAll("#" + countryData.countryCode + " *").forEach(function(el) {
+      self.worldMapSvg.querySelectorAll("#" + countryData.countryCode + ", #" + countryData.countryCode + " *").forEach(function(el) {
         el.style.fill = countryData.colour;
       });
     });
@@ -97,21 +101,36 @@ function CovidSituation() {
     this.img = loadImage(blobURL);
   }
 
+
   this.setup = function() {
+    var self = this;
+
     if (!this.worldMapSourceLoaded || !this.isoCountryCodesLoaded || !this.dailyConfirmedCovidCasesDataLoaded) {
       console.log('Data not yet loaded');
       return;
     }
 
+    var daysCount = this.dailyConfirmedCovidCasesData.columns.length - 3;
+    this.dateSlider = createSlider(0, daysCount, daysCount, 1);
+    this.dateSlider.position(400, 20);
+
     this.render_map();
+
+    this.dateSlider.input(function () {
+      self.render_map();
+    });
   };
+  
 
   this.destroy = function() {
 
   };
 
   this.draw = function() {
-    image(this.img, 0, 0, 826, 419);
+    image(this.img, 50, 100, 826, 419);
 
+    var parts = this.date.split('/');
+    var date = new Date(("20" + parts[2]), parts[0], parts[1])
+    text(date.toDateString(), 110, 50);
   };
 }
