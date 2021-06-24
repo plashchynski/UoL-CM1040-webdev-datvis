@@ -14,26 +14,57 @@ function CovidSituation() {
   // gallery when a visualisation is added.
   this.preload = function() {
     var self = this;
-    // this.data = loadTable(
-    //   './data/tech-diversity/race-2018.csv', 'csv', 'header',
-    //   // Callback function to set the value
-    //   // this.loaded to true.
-    //   function(table) {
-    //     self.loaded = true;
-    //   });
+
+    this.isoCountryCodes = loadTable(
+      './data/covid-19/wikipedia-iso-country-codes.csv', 'csv', 'header',
+      function(table) {
+        self.isoCountryCodesLoaded = true;
+      });
+
+
+    this.dailyConfirmedCovidCasesData = loadTable(
+      './data/covid-19/daily_confirmed_covid_cases.csv', 'csv', 'header',
+      function(table) {
+        self.dailyConfirmedCovidCasesDataLoaded = true;
+      });
+
     this.worldMapSource = loadStrings(
       'lib/BlankMap-World.svg',
       function () {
-        self.loaded = true;
+        self.worldMapSourceLoaded = true;
       }
     );
   };
 
   this.render_map = function() {
+    self = this;
     var parser = new DOMParser();
     this.worldMapSvg = parser.parseFromString(this.worldMapSource.toString(), "image/svg+xml");
 
-    this.worldMapSvg.querySelectorAll(".landxx").forEach(el => el.style = "fill: #c0c0c0;stroke: #ffffff;stroke-width: 0.5;fill-rule: evenodd;");
+
+    this.worldMapSvg.querySelectorAll(".landxx").forEach(function(el) {
+      el.style.stroke = "#ffffff";
+      el.style.strokeWidth = 0.5;
+      el.style.fillRule = "evenodd";
+      el.style.fill = "#c0c0c0";
+    });
+
+    this.dailyConfirmedCovidCasesData.rows.forEach(function(row) {
+      var Alpha3CountryCode = row.getString("id");
+      var countryCodeRow = self.isoCountryCodes.findRow(Alpha3CountryCode, "Alpha-3 code");
+      if (countryCodeRow) {
+        var Alpha2CountryCode = countryCodeRow.getString("Alpha-2 code");
+        console.log(Alpha2CountryCode.toLowerCase());
+
+        self.worldMapSvg.querySelector("#" + Alpha2CountryCode.toLowerCase()).style.fill = "red";
+
+        self.worldMapSvg.querySelectorAll("#" + Alpha2CountryCode.toLowerCase() + " *").forEach(function(el) {
+          el.style.fill = "red";
+        });
+      } else {
+        console.log(Alpha3CountryCode);
+      }
+    });
 
     var svgElement = this.worldMapSvg.querySelector('svg');
     var clonedSvgElement = svgElement.cloneNode(true);
@@ -46,7 +77,7 @@ function CovidSituation() {
   }
 
   this.setup = function() {
-    if (!this.loaded) {
+    if (!this.worldMapSourceLoaded || !this.isoCountryCodesLoaded || !this.dailyConfirmedCovidCasesDataLoaded) {
       console.log('Data not yet loaded');
       return;
     }
