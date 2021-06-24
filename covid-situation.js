@@ -38,10 +38,13 @@ function CovidSituation() {
 
   this.render_map = function() {
     self = this;
+
+    // parse map svg sources to DOM document
     var parser = new DOMParser();
     this.worldMapSvg = parser.parseFromString(this.worldMapSource.toString(), "image/svg+xml");
 
 
+    // reset map styles
     this.worldMapSvg.querySelectorAll(".landxx").forEach(function(el) {
       el.style.stroke = "#ffffff";
       el.style.strokeWidth = 0.5;
@@ -49,23 +52,41 @@ function CovidSituation() {
       el.style.fill = "#c0c0c0";
     });
 
+
+    // generate individual style for each country
+    var mapData = [];
+
+    var lastDate = this.dailyConfirmedCovidCasesData.columns[this.dailyConfirmedCovidCasesData.columns.length-1];
+    var maxValue = max(this.dailyConfirmedCovidCasesData.getColumn(lastDate).map(Number));
+    var minValue = min(this.dailyConfirmedCovidCasesData.getColumn(lastDate).map(Number));
+
     this.dailyConfirmedCovidCasesData.rows.forEach(function(row) {
       var Alpha3CountryCode = row.getString("id");
       var countryCodeRow = self.isoCountryCodes.findRow(Alpha3CountryCode, "Alpha-3 code");
       if (countryCodeRow) {
         var Alpha2CountryCode = countryCodeRow.getString("Alpha-2 code");
-        console.log(Alpha2CountryCode.toLowerCase());
 
-        self.worldMapSvg.querySelector("#" + Alpha2CountryCode.toLowerCase()).style.fill = "red";
+        var value = Number(row.getNum(lastDate));
 
-        self.worldMapSvg.querySelectorAll("#" + Alpha2CountryCode.toLowerCase() + " *").forEach(function(el) {
-          el.style.fill = "red";
+        var c = color('red');
+        c.setAlpha(map(value, minValue, maxValue, 100, 255));
+        mapData.push({
+          countryCode: Alpha2CountryCode.toLowerCase(),
+          colour: c.toString()
         });
-      } else {
-        console.log(Alpha3CountryCode);
       }
     });
 
+    // set country individual styles
+    mapData.forEach(function(countryData) {
+      self.worldMapSvg.querySelector("#" + countryData.countryCode).style.fill = countryData.colour;
+
+      self.worldMapSvg.querySelectorAll("#" + countryData.countryCode + " *").forEach(function(el) {
+        el.style.fill = countryData.colour;
+      });
+    });
+
+    // update map image
     var svgElement = this.worldMapSvg.querySelector('svg');
     var clonedSvgElement = svgElement.cloneNode(true);
     var outerHTML = clonedSvgElement.outerHTML,
