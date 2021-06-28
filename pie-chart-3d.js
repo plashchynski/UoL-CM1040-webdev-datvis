@@ -4,6 +4,8 @@ function PieChart3D(x, y, diameter) {
   this.y = y;
   this.diameter = diameter;
   this.labelSpace = 30;
+  this.webgl = createGraphics(diameter, diameter, WEBGL);
+  this.webgl.translate(-diameter/4,-diameter/4,0);
 
   this.get_radians = function(data) {
     var total = sum(data);
@@ -48,9 +50,15 @@ Arrays must be the same length!`);
       stroke(0);
       strokeWeight(1);
 
-      arc(this.x, this.y,
-          this.diameter, this.diameter,
-          lastAngle, lastAngle + angles[i] + 0.001); // Hack for 0!
+      // arc(this.x, this.y,
+      //     this.diameter, this.diameter,
+      //     lastAngle, lastAngle + angles[i] + 0.001); // Hack for 0!
+
+      this.webgl.background('grey');
+      this.webgl.cylinder();
+      // this.webgl.plane(50, 50);
+      // this.webgl.camera(1, 1, 1);
+      image(this.webgl, this.x-this.diameter/2, this.y-this.diameter/2);
 
       if (labels) {
         this.makeLegendItem(labels[i], data[i], i, colour);
