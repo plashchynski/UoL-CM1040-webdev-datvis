@@ -46,7 +46,7 @@ function TechDiversityRace() {
   };
 
   // Create a new pie chart object.
-  this.pie = new PieChart(width / 2, height / 2, width * 0.4);
+  this.pie = new PieChart3D(width / 2, height / 2, width * 0.4);
 
   this.draw = function() {
     if (!this.loaded) {
