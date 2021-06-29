@@ -1,18 +1,8 @@
-cylinderSegment = function(args) {
-  const webgl = arguments[0];
-  const x = arguments[1];
-  const y = arguments[2];
-  const width = arguments[3];
-  const height = arguments[4];
-  const start = arguments[5];
-  const stop = arguments[6];
-  const detail = arguments[8] || 25;
+cylinderSegment = function(webgl, x, y, width, height, start, stop) {
+  const detail = 25;
 
-  let shape;
-  let gId;
-
-  shape = 'cylinderSegment';
-  gId = `${shape}|${start}|${stop}|${detail}|`;
+  let shape = 'cylinderSegment';
+  let gId = `${shape}|${start}|${stop}|${detail}|`;
 
   if (!webgl._renderer.geometryInHash(gId)) {
     const _arc = function() {

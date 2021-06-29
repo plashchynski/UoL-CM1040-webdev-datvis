@@ -52,8 +52,8 @@ Arrays must be the same length!`);
 
       this.webgl.fill(colour);
 
-      cylinderSegment(this.webgl, this.x-this.diameter-100, this.y-this.diameter+100,
-        this.diameter-40, this.diameter-40,
+      cylinderSegment(this.webgl, -this.webgl.width/2, -this.webgl.height/2,
+        this.diameter, this.diameter,
         lastAngle, lastAngle + angles[i] + 0.001);
 
       if (labels) {
