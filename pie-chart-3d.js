@@ -5,7 +5,7 @@ function PieChart3D(x, y, diameter) {
   this.diameter = diameter;
   this.labelSpace = 30;
   this.webgl = createGraphics(diameter, diameter, WEBGL);
-  this.webgl.rotateX(radians(30));
+  this.webgl.rotateX(radians(50));
 
   this.get_radians = function(data) {
     var total = sum(data);
@@ -38,6 +38,8 @@ Arrays must be the same length!`);
     var angles = this.get_radians(data);
     var lastAngle = 0;
     var colour;
+    var height = 30;
+    var scale = 100;
 
     this.webgl.clear();
 
@@ -51,7 +53,7 @@ Arrays must be the same length!`);
       var start = lastAngle;
       var stop = lastAngle + angles[i] + 0.001;
 
-      var segment = new CylinderSegment(this.webgl, start, stop, colour);
+      var segment = new CylinderSegment(this.webgl, start, stop, height, scale, colour);
       segment.draw();
 
       if (labels) {

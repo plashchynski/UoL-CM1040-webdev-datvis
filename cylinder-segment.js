@@ -1,20 +1,22 @@
-CylinderSegment = function(webgl, start, stop, colour) {
+CylinderSegment = function(webgl, start, stop, height, scale, colour) {
   this.webgl = webgl;
   this.start = start;
   this.stop = stop;
   this.colour = colour;
+  this.height = height;
+  this.scale = scale;
 
   this.draw = function() {
     var start = this.start;
     var stop = this.stop;
     var webgl = this.webgl;
-    var scale = 100;
-    var height = 20;
+    var scale = this.scale;
+    var height = this.height;
 
+    webgl.noStroke();
     webgl.fill(this.colour);
 
     // Top face
-
     webgl.beginShape();
     webgl.vertex(0, 0, 0);
     for (let j = 0; j <= 25; j++) {
@@ -24,7 +26,6 @@ CylinderSegment = function(webgl, start, stop, colour) {
     webgl.endShape(CLOSE);
 
     // Bottom face
-
     webgl.beginShape();
     webgl.vertex(0, 0, height);
     for (let j = 0; j <= 25; j++) {
@@ -33,9 +34,13 @@ CylinderSegment = function(webgl, start, stop, colour) {
     }
     webgl.endShape(CLOSE);
 
-    // WALLS
-    webgl.noStroke();
+    webgl.colorMode(HSL);
+    var hue = webgl.hue(this.colour);
+    var saturation = webgl.saturation(this.colour);
+    var lightness = webgl.lightness(this.colour);
+    webgl.fill(webgl.color(hue, saturation, lightness-10));
 
+    // perimeter walls
     for (let j = 0; j <= 25-1; j++) {
       webgl.beginShape();
 
