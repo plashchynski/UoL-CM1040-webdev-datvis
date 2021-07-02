@@ -5,7 +5,8 @@ function PieChart3D(x, y, diameter) {
   this.diameter = diameter;
   this.labelSpace = 30;
   this.webgl = createGraphics(diameter, diameter, WEBGL);
-  this.webgl.rotateX(radians(50));
+  this.webgl.rotateZ(radians(90));
+  this.webgl.rotateY(-radians(50));
 
   this.get_radians = function(data) {
     var total = sum(data);

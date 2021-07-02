@@ -1,17 +1,20 @@
-CylinderSegment = function(webgl, start, stop, height, scale, colour) {
+CylinderSegment = function(webgl, start, stop, height, scale, colour, details) {
   this.webgl = webgl;
   this.start = start;
   this.stop = stop;
   this.colour = colour;
   this.height = height;
   this.scale = scale;
+  this.details = details || 25;
 
   this.draw = function() {
+    // make a local copy of all variable to make a code less messy
     var start = this.start;
     var stop = this.stop;
     var webgl = this.webgl;
     var scale = this.scale;
     var height = this.height;
+    var details = this.details;
 
     webgl.noStroke();
     webgl.fill(this.colour);
@@ -19,8 +22,8 @@ CylinderSegment = function(webgl, start, stop, height, scale, colour) {
     // Top face
     webgl.beginShape();
     webgl.vertex(0, 0, 0);
-    for (let j = 0; j <= 25; j++) {
-      var theta = (stop - start) * j / 25 + start;
+    for (let j = 0; j <= details; j++) {
+      var theta = (stop - start) * j / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, 0);
     }
     webgl.endShape(CLOSE);
@@ -28,8 +31,8 @@ CylinderSegment = function(webgl, start, stop, height, scale, colour) {
     // Bottom face
     webgl.beginShape();
     webgl.vertex(0, 0, height);
-    for (let j = 0; j <= 25; j++) {
-      var theta = (stop - start) * j / 25 + start;
+    for (let j = 0; j <= details; j++) {
+      var theta = (stop - start) * j / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, height);
     }
     webgl.endShape(CLOSE);
@@ -41,29 +44,29 @@ CylinderSegment = function(webgl, start, stop, height, scale, colour) {
     webgl.fill(webgl.color(hue, saturation, lightness-10));
 
     // perimeter walls
-    for (let j = 0; j <= 25-1; j++) {
+    for (let j = 0; j <= details-1; j++) {
       webgl.beginShape();
 
-      var theta = (stop - start) * j / 25 + start;
+      var theta = (stop - start) * j / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, 0);
 
-      var theta = (stop - start) * (j+1) / 25 + start;
+      var theta = (stop - start) * (j+1) / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, 0);
 
-      var theta = (stop - start) * j / 25 + start;
+      var theta = (stop - start) * j / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, height);
 
       webgl.endShape(CLOSE);
 
       webgl.beginShape();
 
-      var theta = (stop - start) * j / 25 + start;
+      var theta = (stop - start) * j / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, height);
 
-      var theta = (stop - start) * (j+1) / 25 + start;
+      var theta = (stop - start) * (j+1) / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, height);
 
-      var theta = (stop - start) * (j+1) / 25 + start;
+      var theta = (stop - start) * (j+1) / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, 0);
 
       webgl.endShape(CLOSE);
