@@ -23,7 +23,7 @@ function CovidMap() {
   this.render_map = function() {
     var self = this;
 
-    // generate individual style for each country
+    // generate an individual style for each country
     var countryColors = [];
 
     this.date = this.dailyCases.columns[this.dateSlider.value()+2];
@@ -33,20 +33,19 @@ function CovidMap() {
     this.dailyCases.rows.forEach(function(row) {
       var Alpha3CountryCode = row.getString("id");
       var countryCodeRow = self.countryCodes.findRow(Alpha3CountryCode, "Alpha-3 code");
-      if (!countryCodeRow) {
+      if (!countryCodeRow)
         return;
-      }
 
       var countryCode = countryCodeRow.getString("Alpha-2 code").toLowerCase();
 
+      // set default colour for all countries
       self.map.querySelectorAll("#" + countryCode + ", #" + countryCode + " *").forEach(function(el) {
         el.style.fill = "#c0c0c0";
       });
 
       var value = Number(row.getNum(self.date));
-      if (value <= 0) {
+      if (value <= 0)
         return;
-      }
       var c = color('red');
       c.setAlpha(map(value, minValue, maxValue, 50, 255));
       countryColors.push({
@@ -55,14 +54,14 @@ function CovidMap() {
       });
     });
 
-    // set country individual styles
+    // set every country an individual style
     countryColors.forEach(function(countryColor) {
       self.map.querySelectorAll("#" + countryColor.countryCode + ", #" + countryColor.countryCode + " *").forEach(function(el) {
         el.style.fill = countryColor.colour;
       });
     });
 
-    // update map image
+    // render map image to blob
     var svgElement = this.map.querySelector('svg');
     var clonedSvgElement = svgElement.cloneNode(true);
     var outerHTML = clonedSvgElement.outerHTML,
@@ -70,7 +69,7 @@ function CovidMap() {
     var URL = window.URL || window.webkitURL || window;
     var blobURL = URL.createObjectURL(blob);
 
-    this.img = loadImage(blobURL);
+    this.mapImg = loadImage(blobURL);
   }
 
 
@@ -87,6 +86,7 @@ function CovidMap() {
       el.style.fill = "#c0c0c0";
     });
 
+    // set date slider
     var daysCount = this.dailyCases.columns.length - 3;
     this.dateSlider = createSlider(0, daysCount, daysCount, 1);
     this.dateSlider.position(400, 20);
@@ -99,13 +99,12 @@ function CovidMap() {
     });
   };
 
-
   this.destroy = function() {
     this.dateSlider.remove();
   };
 
   this.draw = function() {
-    image(this.img, 50, 100, 826, 419);
+    image(this.mapImg, 50, 100, 826, 419);
 
     var parts = this.date.split('/');
     var date = new Date(("20" + parts[2]), parts[0], parts[1]);
