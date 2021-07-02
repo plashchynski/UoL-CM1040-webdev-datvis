@@ -15,29 +15,29 @@ function CovidMap() {
   this.preload = function() {
     var self = this;
 
-    this.isoCountryCodes = loadTable(
-      './data/covid-19/wikipedia-iso-country-codes.csv', 'csv', 'header',
-      function(table) {
-        self.isoCountryCodesLoaded = true;
+    this.countryCodes = loadTable(
+      './data/covid-19/country-codes.csv', 'csv', 'header',
+      function() {
+        self.countryCodesLoaded = true;
       });
 
 
-    this.dailyConfirmedCovidCasesData = loadTable(
-      './data/covid-19/daily_confirmed_covid_cases.csv', 'csv', 'header',
-      function(table) {
-        self.dailyConfirmedCovidCasesDataLoaded = true;
+    this.dailyCases = loadTable(
+      './data/covid-19/daily-cases.csv', 'csv', 'header',
+      function() {
+        self.dailyCasesLoaded = true;
       });
 
-    this.worldMapSource = loadStrings(
-      'lib/BlankMap-World.svg',
-      function () {
+    loadStrings(
+      './data/covid-19/map.svg',
+      function (svg) {
         // parse map svg sources to DOM document
         var parser = new DOMParser();
-        self.worldMapSvg = parser.parseFromString(self.worldMapSource.toString(), "image/svg+xml");
-        self.worldMapSourceLoaded = true;
+        self.map = parser.parseFromString(svg.toString(), "image/svg+xml");
+        self.mapLoaded = true;
 
         // reset map styles
-        self.worldMapSvg.querySelectorAll(".landxx,.subxx,.circlexx,.limitxx").forEach(function(el) {
+        self.map.querySelectorAll(".landxx,.subxx,.circlexx,.limitxx").forEach(function(el) {
           el.style.stroke = "#ffffff";
           el.style.strokeWidth = 0.5;
           el.style.fillRule = "evenodd";
@@ -50,48 +50,47 @@ function CovidMap() {
   this.render_map = function() {
     var self = this;
 
-
     // generate individual style for each country
-    var mapData = [];
+    var countryColors = [];
 
-    this.date = this.dailyConfirmedCovidCasesData.columns[this.dateSlider.value()+2];
-    var maxValue = max(this.dailyConfirmedCovidCasesData.getColumn(this.date).map(Number));
-    var minValue = min(this.dailyConfirmedCovidCasesData.getColumn(this.date).map(Number));
+    this.date = this.dailyCases.columns[this.dateSlider.value()+2];
+    var maxValue = max(this.dailyCases.getColumn(this.date).map(Number));
+    var minValue = min(this.dailyCases.getColumn(this.date).map(Number));
 
-    this.dailyConfirmedCovidCasesData.rows.forEach(function(row) {
+    this.dailyCases.rows.forEach(function(row) {
       var Alpha3CountryCode = row.getString("id");
-      var countryCodeRow = self.isoCountryCodes.findRow(Alpha3CountryCode, "Alpha-3 code");
-      if (countryCodeRow) {
-        var Alpha2CountryCode = countryCodeRow.getString("Alpha-2 code");
-
-        var countryCode = Alpha2CountryCode.toLowerCase();
-
-        self.worldMapSvg.querySelectorAll("#" + countryCode + ", #" + countryCode + " *").forEach(function(el) {
-          el.style.fill = "#c0c0c0";
-        });
-
-        var value = Number(row.getNum(self.date));
-        if (value <= 0) {
-          return;
-        }
-        var c = color('red');
-        c.setAlpha(map(value, minValue, maxValue, 50, 255));
-        mapData.push({
-          countryCode: countryCode,
-          colour: c.toString()
-        });
+      var countryCodeRow = self.countryCodes.findRow(Alpha3CountryCode, "Alpha-3 code");
+      if (!countryCodeRow) {
+        return;
       }
+
+      var countryCode = countryCodeRow.getString("Alpha-2 code").toLowerCase();
+
+      self.map.querySelectorAll("#" + countryCode + ", #" + countryCode + " *").forEach(function(el) {
+        el.style.fill = "#c0c0c0";
+      });
+
+      var value = Number(row.getNum(self.date));
+      if (value <= 0) {
+        return;
+      }
+      var c = color('red');
+      c.setAlpha(map(value, minValue, maxValue, 50, 255));
+      countryColors.push({
+        countryCode: countryCode,
+        colour: c.toString()
+      });
     });
 
     // set country individual styles
-    mapData.forEach(function(countryData) {
-      self.worldMapSvg.querySelectorAll("#" + countryData.countryCode + ", #" + countryData.countryCode + " *").forEach(function(el) {
-        el.style.fill = countryData.colour;
+    countryColors.forEach(function(countryColor) {
+      self.map.querySelectorAll("#" + countryColor.countryCode + ", #" + countryColor.countryCode + " *").forEach(function(el) {
+        el.style.fill = countryColor.colour;
       });
     });
 
     // update map image
-    var svgElement = this.worldMapSvg.querySelector('svg');
+    var svgElement = this.map.querySelector('svg');
     var clonedSvgElement = svgElement.cloneNode(true);
     var outerHTML = clonedSvgElement.outerHTML,
         blob = new Blob([outerHTML],{type:'image/svg+xml;charset=utf-8'});
@@ -105,12 +104,12 @@ function CovidMap() {
   this.setup = function() {
     var self = this;
 
-    if (!this.worldMapSourceLoaded || !this.isoCountryCodesLoaded || !this.dailyConfirmedCovidCasesDataLoaded) {
+    if (!this.mapLoaded || !this.countryCodesLoaded || !this.dailyCasesLoaded) {
       console.log('Data not yet loaded');
       return;
     }
 
-    var daysCount = this.dailyConfirmedCovidCasesData.columns.length - 3;
+    var daysCount = this.dailyCases.columns.length - 3;
     this.dateSlider = createSlider(0, daysCount, daysCount, 1);
     this.dateSlider.position(400, 20);
 
@@ -120,7 +119,7 @@ function CovidMap() {
       self.render_map();
     });
   };
-  
+
 
   this.destroy = function() {
     this.dateSlider.remove();
