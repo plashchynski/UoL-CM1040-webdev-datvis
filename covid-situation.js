@@ -123,14 +123,19 @@ function CovidSituation() {
   
 
   this.destroy = function() {
-
+    this.dateSlider.remove();
   };
 
   this.draw = function() {
     image(this.img, 50, 100, 826, 419);
 
     var parts = this.date.split('/');
-    var date = new Date(("20" + parts[2]), parts[0], parts[1])
+    var date = new Date(("20" + parts[2]), parts[0], parts[1]);
+    fill('black');
+    textAlign(LEFT, BASELINE);
+    textSize(12);
+    strokeWeight(0);
+    textStyle(BOLD);
     text(date.toDateString(), 110, 50);
   };
 }
