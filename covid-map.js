@@ -13,38 +13,11 @@ function CovidMap() {
   // Preload the data. This function is called automatically by the
   // gallery when a visualisation is added.
   this.preload = function() {
-    var self = this;
-
-    this.countryCodes = loadTable(
-      './data/covid-19/country-codes.csv', 'csv', 'header',
-      function() {
-        self.countryCodesLoaded = true;
-      });
-
-
-    this.dailyCases = loadTable(
-      './data/covid-19/daily-cases.csv', 'csv', 'header',
-      function() {
-        self.dailyCasesLoaded = true;
-      });
-
-    loadStrings(
-      './data/covid-19/map.svg',
-      function (svg) {
-        // parse map svg sources to DOM document
-        var parser = new DOMParser();
-        self.map = parser.parseFromString(svg.toString(), "image/svg+xml");
-        self.mapLoaded = true;
-
-        // reset map styles
-        self.map.querySelectorAll(".landxx,.subxx,.circlexx,.limitxx").forEach(function(el) {
-          el.style.stroke = "#ffffff";
-          el.style.strokeWidth = 0.5;
-          el.style.fillRule = "evenodd";
-          el.style.fill = "#c0c0c0";
-        });
-      }
-    );
+    // Calling loadTable() inside preload() guarantees to complete the operation before setup()
+    // and draw() are called. https://p5js.org/reference/#/p5/loadTable
+    this.countryCodes = loadTable('./data/covid-19/country-codes.csv', 'csv', 'header');
+    this.dailyCases = loadTable('./data/covid-19/daily-cases.csv', 'csv', 'header');
+    this.mapSvg = loadStrings('./data/covid-19/map.svg');
   };
 
   this.render_map = function() {
@@ -102,12 +75,17 @@ function CovidMap() {
 
 
   this.setup = function() {
-    var self = this;
+    // parse map svg sources to DOM document
+    var parser = new DOMParser();
+    this.map = parser.parseFromString(this.mapSvg.toString(), "image/svg+xml");
 
-    if (!this.mapLoaded || !this.countryCodesLoaded || !this.dailyCasesLoaded) {
-      console.log('Data not yet loaded');
-      return;
-    }
+    // reset map styles
+    this.map.querySelectorAll(".landxx,.subxx,.circlexx,.limitxx").forEach(function(el) {
+      el.style.stroke = "#ffffff";
+      el.style.strokeWidth = 0.5;
+      el.style.fillRule = "evenodd";
+      el.style.fill = "#c0c0c0";
+    });
 
     var daysCount = this.dailyCases.columns.length - 3;
     this.dateSlider = createSlider(0, daysCount, daysCount, 1);
@@ -115,6 +93,7 @@ function CovidMap() {
 
     this.render_map();
 
+    var self = this;
     this.dateSlider.input(function () {
       self.render_map();
     });
