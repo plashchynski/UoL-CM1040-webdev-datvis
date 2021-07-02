@@ -1,11 +1,11 @@
-function CovidSituation() {
+function CovidMap() {
 
   // Name for the visualisation to appear in the menu bar.
-  this.name = 'Covid Situation';
+  this.name = 'COVID-19 Map';
 
   // Each visualisation must have a unique ID with no special
   // characters.
-  this.id = 'covid-situation';
+  this.id = 'covid-map';
 
   // Property to represent whether data has been loaded.
   this.loaded = false;
