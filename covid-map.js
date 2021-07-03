@@ -61,17 +61,20 @@ function CovidMap() {
       });
     });
 
+    // loadImage raise an unknown error for some reason
+    // var svgText = self.map.querySelector('svg').textContent;
+    // var encodedData = "data:image/svg+xml;base64," + window.btoa(svgText);
+    // this.mapImg = loadImage(encodedData);
+
     // render map image to blob
     var svgElement = this.map.querySelector('svg');
     var clonedSvgElement = svgElement.cloneNode(true);
-    var outerHTML = clonedSvgElement.outerHTML,
-        blob = new Blob([outerHTML],{type:'image/svg+xml;charset=utf-8'});
+    var outerHTML = clonedSvgElement.outerHTML;
+    var blob = new Blob([outerHTML],{type:'image/svg+xml'});
     var URL = window.URL || window.webkitURL || window;
     var blobURL = URL.createObjectURL(blob);
-
     this.mapImg = loadImage(blobURL);
   }
-
 
   this.setup = function() {
     // parse map svg sources to DOM document
