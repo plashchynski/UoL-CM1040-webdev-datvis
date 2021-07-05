@@ -50,23 +50,23 @@ CylinderSegment = function(webgl, start, stop, height, scale, colour, details) {
       var theta = (stop - start) * j / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, 0);
 
-      var theta = (stop - start) * (j+1) / details + start;
+      theta = (stop - start) * (j+1) / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, 0);
 
-      var theta = (stop - start) * j / details + start;
+      theta = (stop - start) * j / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, height);
 
       webgl.endShape(CLOSE);
 
       webgl.beginShape();
 
-      var theta = (stop - start) * j / details + start;
+      theta = (stop - start) * j / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, height);
 
-      var theta = (stop - start) * (j+1) / details + start;
+      theta = (stop - start) * (j+1) / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, height);
 
-      var theta = (stop - start) * (j+1) / details + start;
+      theta = (stop - start) * (j+1) / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, 0);
 
       webgl.endShape(CLOSE);
