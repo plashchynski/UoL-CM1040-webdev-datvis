@@ -110,7 +110,10 @@ function CovidMap() {
     image(this.mapImg, 50, 100, 826, 419);
 
     var parts = this.date.split('/');
-    var date = new Date(("20" + parts[2]), parts[0], parts[1]);
+
+    // The Date constructor function accepts a set of ordered values that represent each part of a date:
+    // the year, the month (starting from 0), the day, the hour, the minutes, seconds and milliseconds
+    var date = new Date(("20" + parts[2]), parts[0]-1, parts[1]);
     fill('black');
     textAlign(LEFT, BASELINE);
     textSize(12);
