@@ -35,6 +35,8 @@ function CovidMap() {
     this.dataSetSelector.position(400, 20);
     this.dataSetSelector.option('Total cases');
     this.dataSetSelector.option('Daily cases');
+    this.dataSetSelector.option('Daily deaths');
+    this.dataSetSelector.option('Total deaths');
     this.dataSetSelector.input(function () {
       self.render_map();
     });
@@ -82,6 +84,10 @@ function CovidMap() {
       fieldName = 'New_cases';
     } else if (this.dataSetSelector.value() == 'Total cases') {
       fieldName = 'Cumulative_cases';
+    } else if (this.dataSetSelector.value() == 'Daily deaths') {
+      fieldName = 'New_deaths';
+    } else if (this.dataSetSelector.value() == 'Total deaths') {
+      fieldName = 'Cumulative_deaths';
     }
 
     var values = this.dayData.map(row => row.getNum(fieldName));
