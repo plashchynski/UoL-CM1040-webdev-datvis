@@ -30,8 +30,17 @@ function CovidMap() {
 
     // set date slider
     this.days = Array.from(new Set(this.covidGlobalData.getColumn("Date_reported")));
+
+    this.dataSetSelector = createSelect();
+    this.dataSetSelector.position(400, 20);
+    this.dataSetSelector.option('Total cases');
+    this.dataSetSelector.option('Daily cases');
+    this.dataSetSelector.input(function () {
+      self.render_map();
+    });
+
     this.dateSlider = createSlider(1, this.days.length, this.days.length, 1);
-    this.dateSlider.position(400, 20);
+    this.dateSlider.position(700, 540);
 
     this.render_map();
 
@@ -56,7 +65,7 @@ function CovidMap() {
     textSize(12);
     strokeWeight(0);
     textStyle(BOLD);
-    text(date.toDateString(), 110, 50);
+    text(date.toDateString(), 410, 570);
   };
 
   this.render_map = function() {
@@ -68,9 +77,16 @@ function CovidMap() {
     this.date = this.days[this.dateSlider.value()-1];
     this.dayData = this.covidGlobalData.findRows(this.date, "Date_reported");
 
-    newCases = this.dayData.map(row => row.getNum('New_cases'));
-    var maxValue = max(newCases);
-    var minValue = min(newCases);
+    var fieldName;
+    if (this.dataSetSelector.value() == 'Daily cases') {
+      fieldName = 'New_cases';
+    } else if (this.dataSetSelector.value() == 'Total cases') {
+      fieldName = 'Cumulative_cases';
+    }
+
+    var values = this.dayData.map(row => row.getNum(fieldName));
+    var maxValue = max(values);
+    var minValue = min(values);
 
     this.dayData.forEach(function(row) {
       var countryCode = row.getString('Country_code').toLowerCase();
@@ -82,7 +98,7 @@ function CovidMap() {
         el.style.fill = "#c0c0c0";
       });
 
-      var value = Number(row.getNum('New_cases'));
+      var value = Number(row.getNum(fieldName));
       if (value <= 0)
         return;
 
