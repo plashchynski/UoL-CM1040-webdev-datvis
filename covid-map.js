@@ -73,9 +73,6 @@ function CovidMap() {
   this.render_map = function() {
     var self = this;
 
-    // generate an individual style for each country
-    var countryColors = [];
-
     this.date = this.days[this.dateSlider.value()-1];
     this.dayData = this.covidGlobalData.findRows(this.date, "Date_reported");
 
@@ -110,16 +107,9 @@ function CovidMap() {
 
       var c = color('red');
       c.setAlpha(map(value, minValue, maxValue, 50, 255));
-      countryColors.push({
-        countryCode: countryCode,
-        colour: c.toString()
-      });
-    });
-
-    // set every country an individual style
-    countryColors.forEach(function(countryColor) {
-      self.map.querySelectorAll("#" + countryColor.countryCode + ", #" + countryColor.countryCode + " *").forEach(function(el) {
-        el.style.fill = countryColor.colour;
+      // Set an individual style for each country
+      self.map.querySelectorAll("#" + countryCode + ", #" + countryCode + " *").forEach(function(el) {
+        el.style.fill = c.toString();
       });
     });
 
