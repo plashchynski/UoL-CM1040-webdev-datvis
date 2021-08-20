@@ -16,6 +16,7 @@ function CovidMap() {
   };
 
   this.setup = function() {
+    var self = this;
     // parse map svg sources to DOM document
     var parser = new DOMParser();
     this.map = parser.parseFromString(this.mapSvg.toString(), "image/svg+xml");
@@ -46,7 +47,6 @@ function CovidMap() {
 
     this.render_map();
 
-    var self = this;
     this.dateSlider.input(function () {
       self.render_map();
     });
