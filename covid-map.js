@@ -9,11 +9,15 @@ function CovidMap() {
   // Preload the data. This function is called automatically by the
   // gallery when a visualisation is added.
   this.preload = function() {
+    var self = this;
+
     // Calling loadTable() inside preload() guarantees to complete the operation before setup()
     // and draw() are called. https://p5js.org/reference/#/p5/loadTable
     this.covidGlobalData = loadTable('./data/covid-19/WHO-COVID-19-global-data.csv', 'csv', 'header');
-    this.map = createDiv("<object type='image/svg+xml' data='/data/covid-19/BlankMap-World.svg' width='826' height='419'>");
-    this.map.style('visibility', 'hidden');
+    loadStrings('./data/covid-19/map.svg', function (svg) {
+      self.map = createDiv(svg);
+      self.map.style('visibility', 'hidden');
+    });
   };
 
   this.setup = function() {
@@ -24,9 +28,9 @@ function CovidMap() {
     this.days = Array.from(new Set(this.covidGlobalData.getColumn("Date_reported")));
 
     this.dataSetSelector = createSelect();
-    this.dataSetSelector.position(400, 20);
-    this.dataSetSelector.option('Total cases');
+    this.dataSetSelector.position(370, 30);
     this.dataSetSelector.option('Daily cases');
+    this.dataSetSelector.option('Total cases');
     this.dataSetSelector.option('Daily deaths');
     this.dataSetSelector.option('Total deaths');
 
@@ -91,7 +95,7 @@ function CovidMap() {
         return;
 
       // set default colour for all countries
-      self.map.elt.querySelector('object').contentDocument.querySelectorAll("#" + countryCode + ", #" + countryCode + " *").forEach(function(el) {
+      document.querySelectorAll("#" + countryCode + ", #" + countryCode + " *").forEach(function(el) {
         el.style.fill = "#c0c0c0";
       });
 
@@ -102,7 +106,7 @@ function CovidMap() {
       var c = color('red');
       c.setAlpha(map(value, minValue, maxValue, 50, 255));
       // Set an individual style for each country
-      self.map.elt.querySelector('object').contentDocument.querySelectorAll("#" + countryCode + ", #" + countryCode + " *").forEach(function(el) {
+      document.querySelectorAll("#" + countryCode + ", #" + countryCode + " *").forEach(function(el) {
         el.style.fill = c.toString();
       });
     });
