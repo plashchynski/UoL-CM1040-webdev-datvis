@@ -5,6 +5,12 @@
  * The styles are applied in the order in which they are defined (and re-defined) here in the preamble.
  */
 
+.landxx:hover
+{
+  stroke: #858585;
+  stroke-width: 5;
+}
+
 /*
  * Circles around small countries and territories
  *

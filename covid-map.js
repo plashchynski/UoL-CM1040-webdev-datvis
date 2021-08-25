@@ -21,7 +21,6 @@ function CovidMap() {
   };
 
   this.setup = function() {
-    var self = this;
     this.map.style('visibility', 'visible');
 
     // set date slider
@@ -39,13 +38,9 @@ function CovidMap() {
 
     this.map.position(350, 70);
 
-    this.dataSetSelector.input(function () {
-      self.render_map();
-    });
+    this.dataSetSelector.input(this.render_map);
 
-    this.dateSlider.input(function () {
-      self.render_map();
-    });
+    this.dateSlider.input(this.render_map);
 
     this.render_map();
   };
