@@ -39,6 +39,14 @@ function stringsToNumbers (array) {
   return array.map(Number);
 }
 
+// Remove duplicate values from array
+// The code was taken from: https://stackoverflow.com/questions/9229645/remove-duplicate-values-from-js-array
+function unique(array) {
+  return array.filter(function(item, pos) {
+    return array.indexOf(item) == pos;
+  });
+}
+
 // --------------------------------------------------------------------
 // Plotting helper functions
 // --------------------------------------------------------------------

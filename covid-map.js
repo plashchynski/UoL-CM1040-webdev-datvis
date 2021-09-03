@@ -13,34 +13,50 @@ function CovidMap() {
 
     // Calling loadTable() inside preload() guarantees to complete the operation before setup()
     // and draw() are called. https://p5js.org/reference/#/p5/loadTable
-    this.covidGlobalData = loadTable('./data/covid-19/WHO-COVID-19-global-data.csv', 'csv', 'header');
+    this.covidData = loadTable('./data/covid-19/WHO-COVID-19-global-data.csv', 'csv', 'header');
+
+    // Create an inline SVG object of a world map and hide it untill an extension has loaded
+    // An inline SVG is more flexible in terms of DOM manipulation than
+    // an image or an object tag
     loadStrings('./data/covid-19/map.svg', function (svg) {
       self.map = createDiv(svg);
       self.map.style('visibility', 'hidden');
     });
   };
 
+  // Setup
+  // This function is called automatically by the gallery when a visualisation is selected.
   this.setup = function() {
     var self = this;
-    this.map.style('visibility', 'visible');
-    this.map.style('z-index', '1');
-    canvas.style.setProperty("pointer-events", "none");
-    canvas.style.setProperty("z-index", "10");
 
-    // set date slider
-    this.days = Array.from(new Set(this.covidGlobalData.getColumn("Date_reported")));
+    // Make the world map image visible
+    this.map.style('visibility', 'visible');
+    this.map.position(350, 70);
+
+    // By default, HTML elements overlap p5.js graphics.
+    // We need to render p5.js text over the world map to display country-specific statistics.
+    // So we change z-order of the map and the p5.js canvas to render the canvas over the map.
+    this.map.style('z-index', '1');
+    canvas.style.setProperty('z-index', '2');
+
+    // Even though we render the p5.js canvas over the map, we need the map to continue receiving
+    // mouse hover events to have specified in CSS border decoration work
+    // So we make the p5.js canvas transparent to mouse events
+    canvas.style.setProperty('pointer-events', 'none');
+
 
     this.dataSetSelector = createSelect();
-    this.dataSetSelector.position(370, 30);
     this.dataSetSelector.option('Daily cases');
     this.dataSetSelector.option('Total cases');
     this.dataSetSelector.option('Daily deaths');
     this.dataSetSelector.option('Total deaths');
+    this.dataSetSelector.position(370, 30);
 
-    this.dateSlider = createSlider(1, this.days.length, this.days.length, 1);
+    // An array of dates for which statistics was reported
+    this.dates = unique(this.covidData.getColumn('Date_reported'));
+
+    this.dateSlider = createSlider(1, this.dates.length, this.dates.length, 1);
     this.dateSlider.position(700, 540);
-
-    this.map.position(350, 70);
 
     this.dataSetSelector.input(function () {
       self.render_map();
@@ -89,8 +105,8 @@ function CovidMap() {
   this.render_map = function() {
     var self = this;
 
-    this.date = this.days[this.dateSlider.value()-1];
-    this.dayData = this.covidGlobalData.findRows(this.date, "Date_reported");
+    this.date = this.dates[this.dateSlider.value()-1];
+    this.dayData = this.covidData.findRows(this.date, "Date_reported");
     this.dataPoints = {};
 
     var fieldName;
