@@ -36,6 +36,8 @@ function CovidMap() {
     // By default, HTML elements overlap p5.js graphics.
     // We need to render p5.js text over the world map to display country-specific statistics.
     // So we change z-order of the map and the p5.js canvas to render the canvas over the map.
+    this.oldMapZIndex = this.map.style('z-index');
+    this.oldCanvasZIndex = canvas.style['z-index'];
     this.map.style('z-index', '1');
     canvas.style.setProperty('z-index', '2');
 
@@ -51,17 +53,15 @@ function CovidMap() {
     this.dataSetSelector.option('Daily deaths');
     this.dataSetSelector.option('Total deaths');
     this.dataSetSelector.position(370, 30);
+    this.dataSetSelector.input(function () {
+      self.render_map();
+    });
 
     // An array of dates for which statistics was reported
     this.dates = unique(this.covidData.getColumn('Date_reported'));
 
     this.dateSlider = createSlider(1, this.dates.length, this.dates.length, 1);
     this.dateSlider.position(700, 540);
-
-    this.dataSetSelector.input(function () {
-      self.render_map();
-    });
-
     this.dateSlider.input(function () {
       self.render_map();
     });
@@ -72,7 +72,11 @@ function CovidMap() {
   this.destroy = function() {
     this.dateSlider.remove();
     this.dataSetSelector.remove();
+
+    // Hide the map and return back all changed global parameters
     this.map.style('visibility', 'hidden');
+    this.map.style('z-index', this.oldMapZIndex);
+    canvas.style.setProperty('z-index', this.oldCanvasZIndex);
   };
 
   this.draw = function() {
