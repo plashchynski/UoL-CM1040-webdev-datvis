@@ -73,13 +73,15 @@ function CovidMap() {
 
     var hoveredRegion = select("#worldMap>path:hover,#worldMap>g:hover");
     if (hoveredRegion) {
-      var titleTag = select('title', hoveredRegion);
+      var countryNameTag = select('name', hoveredRegion);
       var countryCode = hoveredRegion.id();
-      if (titleTag && countryCode) {
-        var title = titleTag.html();
-        console.log(countryCode, title);
-        fill('red');
-        square(mouseX, mouseY, 100);
+      if (countryNameTag && countryCode) {
+        var countryName = countryNameTag.html();
+
+        fill('black');
+        text(countryName, mouseX+10, mouseY+20);
+
+        text(this.dataPoints[countryCode] || "Unknown", mouseX+10, mouseY+40);
       }
     }
   };
@@ -89,6 +91,7 @@ function CovidMap() {
 
     this.date = this.days[this.dateSlider.value()-1];
     this.dayData = this.covidGlobalData.findRows(this.date, "Date_reported");
+    this.dataPoints = {};
 
     var fieldName;
     if (this.dataSetSelector.value() == 'Daily cases') {
@@ -119,8 +122,11 @@ function CovidMap() {
       if (value <= 0)
         return;
 
+      self.dataPoints[countryCode] = value;
+
       var c = color('red');
       c.setAlpha(map(value, minValue, maxValue, 50, 255));
+
       // Set an individual style for each country
       document.querySelectorAll("#" + countryCode + ", #" + countryCode + " *").forEach(function(el) {
         el.style.fill = c.toString();
