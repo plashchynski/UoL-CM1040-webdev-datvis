@@ -18,11 +18,17 @@ function CovidMap() {
       self.map = createDiv(svg);
       self.map.style('visibility', 'hidden');
     });
+    this.div = createDiv('this is some text');
+    this.div.style('font-size', '16px');
+    this.div.style('visibility', 'hidden');
   };
 
   this.setup = function() {
     var self = this;
     this.map.style('visibility', 'visible');
+    this.map.style('z-index', '1');
+    // canvas.style.setProperty("pointer-events", "none");
+    // canvas.style.setProperty("z-index", "10");
 
     // set date slider
     this.days = Array.from(new Set(this.covidGlobalData.getColumn("Date_reported")));
@@ -57,6 +63,7 @@ function CovidMap() {
   };
 
   this.draw = function() {
+    clear();
     // The Date constructor function accepts a set of ordered values that represent each part of a date:
     // the year, the month (starting from 0), the day, the hour, the minutes, seconds and milliseconds
     var date = new Date(this.date);
@@ -66,6 +73,23 @@ function CovidMap() {
     strokeWeight(0);
     textStyle(BOLD);
     text(date.toDateString(), 410, 570);
+
+    var hoveredRegion = select("#worldMap>path:hover,#worldMap>g:hover");
+    if (hoveredRegion) {
+      var titleTag = select('title', hoveredRegion);
+      var countryCode = hoveredRegion.id();
+      if (titleTag && countryCode) {
+        var title = titleTag.html();
+        console.log(countryCode, title);
+        // fill('red');
+        // square(mouseX, mouseY, 100);
+        this.div.style('visibility', 'visible');
+        this.div.style('z-index', '2');
+        this.div.position(mouseX, mouseY);
+      }
+    } else {
+      this.div.style('visibility', 'hidden');
+    }
   };
 
   this.render_map = function() {
