@@ -32,7 +32,7 @@ CylinderSegment = function(webgl, start, stop, height, scale, colour, details) {
     webgl.beginShape();
     webgl.vertex(0, 0, height);
     for (let j = 0; j <= details; j++) {
-      var theta = (stop - start) * j / details + start;
+      theta = (stop - start) * j / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, height);
     }
     webgl.endShape(CLOSE);
@@ -47,7 +47,7 @@ CylinderSegment = function(webgl, start, stop, height, scale, colour, details) {
     for (let j = 0; j <= details-1; j++) {
       webgl.beginShape();
 
-      var theta = (stop - start) * j / details + start;
+      theta = (stop - start) * j / details + start;
       webgl.vertex(cos(theta) * scale, sin(theta) * scale, 0);
 
       theta = (stop - start) * (j+1) / details + start;
@@ -97,5 +97,5 @@ CylinderSegment = function(webgl, start, stop, height, scale, colour, details) {
     webgl.vertex(cos(stop) * scale, sin(stop) * scale, 0);
     webgl.vertex(0, 0, 0);
     webgl.endShape(CLOSE);
-  }
+  };
 };

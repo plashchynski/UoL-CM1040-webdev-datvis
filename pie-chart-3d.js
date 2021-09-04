@@ -87,6 +87,6 @@ Arrays must be the same length!`);
     noStroke();
     textAlign('left', 'center');
     textSize(12);
-    text(label + " " + value.toFixed(2) + "%", x + boxWidth + 10, y + boxWidth / 2);
+    text(label + ' ' + value.toFixed(2) + '%', x + boxWidth + 10, y + boxWidth / 2);
   };
 }
