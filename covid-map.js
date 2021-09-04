@@ -38,8 +38,10 @@ function CovidMap() {
     // So we change z-order of the map and the p5.js canvas to render the canvas over the map.
     this.oldMapZIndex = this.map.style('z-index');
     this.oldCanvasZIndex = canvas.style['z-index'];
-    this.map.style('z-index', '1');
-    canvas.style.setProperty('z-index', '2');
+
+    const mapZIndex = 1;
+    this.map.style('z-index', mapZIndex);
+    canvas.style.setProperty('z-index', mapZIndex+1);
 
     // Even though we render the p5.js canvas over the map, we need the map to continue receiving
     // mouse hover events to have specified in CSS border decoration work
