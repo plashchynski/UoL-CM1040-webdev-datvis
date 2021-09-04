@@ -39,12 +39,13 @@ Arrays must be the same length!`);
     var angles = this.get_radians(data);
     var lastAngle = 0;
     var colour;
-    var height = 30;
     var scale = 100;
 
     this.webgl.clear();
 
+    var legendItemHovered = false;
     for (var i = 0; i < data.length; i++) {
+      var height = 30;
       if (colours) {
         colour = colours[i];
       } else {
@@ -53,15 +54,47 @@ Arrays must be the same length!`);
 
       var start = lastAngle;
       var stop = lastAngle + angles[i] + 0.001;
+      
+
+      if (labels) {
+        label = labels[i];
+        value = data[i];
+        var x = this.x + 50 + this.diameter / 2;
+        var y = this.y + (this.labelSpace * i) - this.diameter / 3;
+        var boxWidth = this.labelSpace / 2;
+        var boxHeight = this.labelSpace / 2;
+    
+        fill(colour);
+        rect(x, y, boxWidth, boxHeight);
+    
+        fill('black');
+        noStroke();
+        textAlign('left', 'center');
+        
+    
+        const labelFontSize = 12;
+        if (mouseX >= x && mouseX <= x + boxWidth + 10 + label.length * 12 &&
+            mouseY >= y && mouseY <= y + boxHeight)
+        {
+          legendItemHovered = true;
+          height *= 2;
+        }
+
+        textSize(labelFontSize);
+    
+        text(label + ' ' + value.toFixed(2) + '%', x + boxWidth + 10, y + boxWidth / 2);
+      }
 
       var segment = new CylinderSegment(this.webgl, start, stop, height, scale, colour);
       segment.draw();
 
-      if (labels) {
-        this.makeLegendItem(labels[i], data[i], i, colour);
-      }
-
       lastAngle += angles[i];
+    }
+
+    if (legendItemHovered) {
+      cursor(HAND);
+    } else {
+      cursor(ARROW);
     }
 
     image(this.webgl, this.x-this.diameter/2, this.y-this.diameter/2);
@@ -72,21 +105,5 @@ Arrays must be the same length!`);
       textSize(24);
       text(title, this.x, this.y - this.diameter * 0.6);
     }
-  };
-
-  this.makeLegendItem = function(label, value, i, colour) {
-    var x = this.x + 50 + this.diameter / 2;
-    var y = this.y + (this.labelSpace * i) - this.diameter / 3;
-    var boxWidth = this.labelSpace / 2;
-    var boxHeight = this.labelSpace / 2;
-
-    fill(colour);
-    rect(x, y, boxWidth, boxHeight);
-
-    fill('black');
-    noStroke();
-    textAlign('left', 'center');
-    textSize(12);
-    text(label + ' ' + value.toFixed(2) + '%', x + boxWidth + 10, y + boxWidth / 2);
   };
 }
