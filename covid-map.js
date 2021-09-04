@@ -91,7 +91,7 @@ function CovidMap() {
     textStyle(BOLD);
     text(date.toDateString(), 410, 570);
 
-    var hoveredRegion = select("#worldMap>path:hover,#worldMap>g:hover");
+    var hoveredRegion = select('#worldMap>path:hover,#worldMap>g:hover');
     if (hoveredRegion) {
       var countryNameTag = select('name', hoveredRegion);
       var countryCode = hoveredRegion.id();
@@ -101,7 +101,7 @@ function CovidMap() {
         fill('black');
         text(countryName, mouseX+10, mouseY+20);
 
-        text(this.dataPoints[countryCode] || "Unknown", mouseX+10, mouseY+40);
+        text(this.dataPoints[countryCode] || 'Unknown', mouseX+10, mouseY+40);
       }
     }
   };
@@ -110,7 +110,7 @@ function CovidMap() {
     var self = this;
 
     this.date = this.dates[this.dateSlider.value()-1];
-    this.dayData = this.covidData.findRows(this.date, "Date_reported");
+    this.dayData = this.covidData.findRows(this.date, 'Date_reported');
     this.dataPoints = {};
 
     var fieldName;
@@ -134,8 +134,8 @@ function CovidMap() {
         return;
 
       // set default colour for all countries
-      document.querySelectorAll("#" + countryCode + ", #" + countryCode + " *").forEach(function(el) {
-        el.style.fill = "#c0c0c0";
+      document.querySelectorAll('#' + countryCode + ', #' + countryCode + ' *').forEach(function(el) {
+        el.style.fill = '#c0c0c0';
       });
 
       var value = Number(row.getNum(fieldName));
@@ -148,9 +148,9 @@ function CovidMap() {
       c.setAlpha(map(value, minValue, maxValue, 50, 255));
 
       // Set an individual style for each country
-      document.querySelectorAll("#" + countryCode + ", #" + countryCode + " *").forEach(function(el) {
+      document.querySelectorAll('#' + countryCode + ', #' + countryCode + ' *').forEach(function(el) {
         el.style.fill = c.toString();
       });
     });
-  }
+  };
 }
