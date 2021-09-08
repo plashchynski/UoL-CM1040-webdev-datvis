@@ -1,4 +1,5 @@
 function CovidMap() {
+  var self = this;
   // Name for the visualisation to appear in the menu bar.
   this.name = 'COVID-19 Map';
 
@@ -55,20 +56,16 @@ function CovidMap() {
     this.dataSetSelector.option('Daily deaths');
     this.dataSetSelector.option('Total deaths');
     this.dataSetSelector.position(370, 30);
-    this.dataSetSelector.input(function () {
-      self.render_map();
-    });
+    this.dataSetSelector.input(render_map);
 
     // An array of dates for which statistics was reported
     this.dates = unique(this.covidData.getColumn('Date_reported'));
 
     this.dateSlider = createSlider(1, this.dates.length, this.dates.length, 1);
     this.dateSlider.position(700, 540);
-    this.dateSlider.input(function () {
-      self.render_map();
-    });
+    this.dateSlider.input(render_map);
 
-    this.render_map();
+    render_map();
   };
 
   this.destroy = function() {
@@ -108,29 +105,27 @@ function CovidMap() {
     }
   };
 
-  this.render_map = function() {
-    var self = this;
-
-    this.date = this.dates[this.dateSlider.value()-1];
-    this.dayData = this.covidData.findRows(this.date, 'Date_reported');
-    this.dataPoints = {};
+  function render_map() {
+    self.date = self.dates[self.dateSlider.value()-1];
+    self.dayData = self.covidData.findRows(self.date, 'Date_reported');
+    self.dataPoints = {};
 
     var fieldName;
-    if (this.dataSetSelector.value() == 'Daily cases') {
+    if (self.dataSetSelector.value() == 'Daily cases') {
       fieldName = 'New_cases';
-    } else if (this.dataSetSelector.value() == 'Total cases') {
+    } else if (self.dataSetSelector.value() == 'Total cases') {
       fieldName = 'Cumulative_cases';
-    } else if (this.dataSetSelector.value() == 'Daily deaths') {
+    } else if (self.dataSetSelector.value() == 'Daily deaths') {
       fieldName = 'New_deaths';
-    } else if (this.dataSetSelector.value() == 'Total deaths') {
+    } else if (self.dataSetSelector.value() == 'Total deaths') {
       fieldName = 'Cumulative_deaths';
     }
 
-    var values = this.dayData.map(row => row.getNum(fieldName));
+    var values = self.dayData.map(row => row.getNum(fieldName));
     var maxValue = max(values);
     var minValue = min(values);
 
-    this.dayData.forEach(function(row) {
+    self.dayData.forEach(function(row) {
       var countryCode = row.getString('Country_code').toLowerCase();
       if (countryCode == ' ')
         return;
