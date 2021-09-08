@@ -16,13 +16,7 @@ function CovidMap() {
     // and draw() are called. https://p5js.org/reference/#/p5/loadTable
     this.covidData = loadTable('./data/covid-19/WHO-COVID-19-global-data.csv', 'csv', 'header');
 
-    // Create an inline SVG object of a world map and hide it untill an extension has loaded
-    // An inline SVG is more flexible in terms of DOM manipulation than
-    // an image or an object tag
-    loadStrings('./data/covid-19/map.svg', function (svg) {
-      self.map = createDiv(svg);
-      self.map.style('visibility', 'hidden');
-    });
+    self.worldMap = new WorldMap();
   };
 
   // Setup
@@ -30,25 +24,7 @@ function CovidMap() {
   this.setup = function() {
     var self = this;
 
-    // Make the world map image visible
-    this.map.style('visibility', 'visible');
-    this.map.position(350, 70);
-
-    // By default, HTML elements overlap p5.js graphics.
-    // We need to render p5.js text over the world map to display country-specific statistics.
-    // So we change z-order of the map and the p5.js canvas to render the canvas over the map.
-    this.oldMapZIndex = this.map.style('z-index');
-    this.oldCanvasZIndex = canvas.style['z-index'];
-
-    const mapZIndex = 1;
-    this.map.style('z-index', mapZIndex);
-    canvas.style.setProperty('z-index', mapZIndex+1);
-
-    // Even though we render the p5.js canvas over the map, we need the map to continue receiving
-    // mouse hover events to have specified in CSS border decoration work
-    // So we make the p5.js canvas transparent to mouse events
-    canvas.style.setProperty('pointer-events', 'none');
-
+    self.worldMap.show(350, 70);
 
     this.dataSetSelector = createSelect();
     this.dataSetSelector.option('Daily cases');
@@ -72,10 +48,7 @@ function CovidMap() {
     this.dateSlider.remove();
     this.dataSetSelector.remove();
 
-    // Hide the map and return back all changed global parameters
-    this.map.style('visibility', 'hidden');
-    this.map.style('z-index', this.oldMapZIndex);
-    canvas.style.setProperty('z-index', this.oldCanvasZIndex);
+    this.worldMap.hide();
   };
 
   this.draw = function() {
@@ -149,5 +122,5 @@ function CovidMap() {
         el.style.fill = c.toString();
       });
     });
-  };
+  }
 }
