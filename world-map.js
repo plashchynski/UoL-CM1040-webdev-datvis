@@ -76,16 +76,22 @@ function WorldMap() {
   };
 
   self.draw = function() {
+    // if a onCountryHover callback function is assigned, check if any country is hovered by
+    // mouse and call the callback
+    if (self.onCountryHover) {
+      checkCountryHover();
+    }
+  };
+
+  function checkCountryHover() {
     var hoveredRegion = select('#worldMap>path:hover,#worldMap>g:hover');
     if (hoveredRegion) {
       var countryNameTag = select('name', hoveredRegion);
       var countryCode = hoveredRegion.id();
       if (countryNameTag && countryCode) {
         var countryName = countryNameTag.html();
-        if (self.onCountryHover) {
-          self.onCountryHover(countryCode, countryName);
-        }
+        self.onCountryHover(countryCode, countryName);
       }
     }
-  };
+  }
 }
