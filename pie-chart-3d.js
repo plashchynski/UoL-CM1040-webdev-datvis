@@ -5,8 +5,10 @@ function PieChart3D(x, y, diameter) {
   this.diameter = diameter;
   this.labelSpace = 30;
   this.webgl = createGraphics(diameter, diameter, WEBGL);
-  this.webgl.rotateZ(radians(90));
-  this.webgl.rotateY(-radians(50));
+  // this.webgl.rotateZ(radians(90));
+  // this.webgl.rotateY(-radians(50));
+  this.camera = this.webgl.createCamera();
+  this.camera._orbit(0, -1, 10);
 
   this.get_radians = function(data) {
     var total = sum(data);
@@ -44,7 +46,7 @@ Arrays must be the same length!`);
     this.webgl.clear();
 
     var legendItemHovered = false;
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < angles.length; i++) {
       var height = 30;
       if (colours) {
         colour = colours[i];
@@ -104,6 +106,21 @@ Arrays must be the same length!`);
       textAlign('center', 'center');
       textSize(24);
       text(title, this.x, this.y - this.diameter * 0.6);
+    }
+
+    if (mouseX >= this.x-this.diameter/2 && mouseX <= this.x+this.diameter/2 &&
+        mouseY >= this.y-this.diameter/2 && this.y+this.diameter/2)
+    {
+      if (mouseIsPressed) {
+          cursor('grabbing');
+
+        let deltaTheta = -(mouseX - pmouseX) * 0.01;
+        let deltaPhi = (mouseY - pmouseY) * 0.01;
+
+        this.camera._orbit(deltaTheta, deltaPhi, 0);
+      } else {
+        cursor('grab');
+      }
     }
   };
 }
