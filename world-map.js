@@ -1,3 +1,9 @@
+/**
+ * A political map of Earth in SVG format with countries, borders and
+ * methods to colour countries in different colours.
+ * @public
+ * @class
+ */
 function WorldMap() {
   var self = this;
 
@@ -9,7 +15,18 @@ function WorldMap() {
     self.mapDiv.style('visibility', 'hidden');
   });
 
-  self.show = function(x, y) {
+  /**
+   * A callback called from the draw() method when a country hovered with a mouse.
+   * @public
+   * @param {string} countryCode
+   * @param {string} countryName
+   */
+  var onCountryHover;
+
+  /**
+   * display a map on the p5.js canvas, should be called during setup
+   */
+  self.show = function() {
     // Make the world map image visible
     self.mapDiv.style('visibility', 'visible');
 
@@ -29,19 +46,30 @@ function WorldMap() {
     canvas.style.setProperty('pointer-events', 'none');
   };
 
+  /**
+   * Place map in the specific position on the canvas
+   * @param {number} x 
+   * @param {number} y 
+   */
   self.position = function(x, y) {
     self.mapDiv.position(350, 70);
   };
 
-  // Hide the map and return back all changed global parameters
+  /**
+   * Hide the map and return back all changed global parameters
+   */
   self.hide = function() {
     self.mapDiv.style('visibility', 'hidden');
     self.mapDiv.style('z-index', self.oldMapZIndex);
     canvas.style.setProperty('z-index', self.oldCanvasZIndex);
   };
 
+  /**
+   * Colour a country in a specific colour
+   * @param {string} countryCode two-letter country codes
+   * @param {string} colour colour in CSS format
+   */
   self.setCountryColor = function(countryCode, colour) {
-    // Set an individual style for each country
     document.querySelectorAll('#' + countryCode + ', #' + countryCode + ' *').forEach(function(el) {
       el.style.fill = colour;
     });

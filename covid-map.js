@@ -105,6 +105,7 @@ function CovidMap() {
       var c = color('red');
       c.setAlpha(map(value, minValue, maxValue, 50, 255));
 
+      // Set an individual style for each country
       self.worldMap.setCountryColor(countryCode, c.toString());
     });
   }
