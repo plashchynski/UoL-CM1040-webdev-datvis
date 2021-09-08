@@ -12,7 +12,6 @@ function WorldMap() {
   self.show = function(x, y) {
     // Make the world map image visible
     self.mapDiv.style('visibility', 'visible');
-    self.mapDiv.position(350, 70);
 
     // By default, HTML elements overlap p5.js graphics.
     // We need to render p5.js text over the world map to display country-specific statistics.
@@ -30,10 +29,35 @@ function WorldMap() {
     canvas.style.setProperty('pointer-events', 'none');
   };
 
+  self.position = function(x, y) {
+    self.mapDiv.position(350, 70);
+  };
+
   // Hide the map and return back all changed global parameters
   self.hide = function() {
     self.mapDiv.style('visibility', 'hidden');
     self.mapDiv.style('z-index', self.oldMapZIndex);
     canvas.style.setProperty('z-index', self.oldCanvasZIndex);
+  };
+
+  self.setCountryColor = function(countryCode, colour) {
+    // Set an individual style for each country
+    document.querySelectorAll('#' + countryCode + ', #' + countryCode + ' *').forEach(function(el) {
+      el.style.fill = colour;
+    });
+  };
+
+  self.draw = function() {
+    var hoveredRegion = select('#worldMap>path:hover,#worldMap>g:hover');
+    if (hoveredRegion) {
+      var countryNameTag = select('name', hoveredRegion);
+      var countryCode = hoveredRegion.id();
+      if (countryNameTag && countryCode) {
+        var countryName = countryNameTag.html();
+        if (self.onCountryHover) {
+          self.onCountryHover(countryCode, countryName);
+        }
+      }
+    }
   };
 }

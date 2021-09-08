@@ -1,5 +1,6 @@
 function CovidMap() {
   var self = this;
+
   // Name for the visualisation to appear in the menu bar.
   this.name = 'COVID-19 Map';
 
@@ -10,21 +11,23 @@ function CovidMap() {
   // Preload the data. This function is called automatically by the
   // gallery when a visualisation is added.
   this.preload = function() {
-    var self = this;
-
     // Calling loadTable() inside preload() guarantees to complete the operation before setup()
     // and draw() are called. https://p5js.org/reference/#/p5/loadTable
     this.covidData = loadTable('./data/covid-19/WHO-COVID-19-global-data.csv', 'csv', 'header');
-
-    self.worldMap = new WorldMap();
+    this.worldMap = new WorldMap();
   };
 
   // Setup
   // This function is called automatically by the gallery when a visualisation is selected.
   this.setup = function() {
-    var self = this;
+    this.worldMap.show();
+    this.worldMap.position(350, 70);
+    this.worldMap.onCountryHover = function(countryCode, countryName) {
+      fill('black');
+      text(countryName, mouseX+10, mouseY+20);
 
-    self.worldMap.show(350, 70);
+      text(self.dataPoints[countryCode] || 'Unknown', mouseX+10, mouseY+40);
+    };
 
     this.dataSetSelector = createSelect();
     this.dataSetSelector.option('Daily cases');
@@ -32,16 +35,16 @@ function CovidMap() {
     this.dataSetSelector.option('Daily deaths');
     this.dataSetSelector.option('Total deaths');
     this.dataSetSelector.position(370, 30);
-    this.dataSetSelector.input(render_map);
+    this.dataSetSelector.input(updateData);
 
     // An array of dates for which statistics was reported
     this.dates = unique(this.covidData.getColumn('Date_reported'));
 
     this.dateSlider = createSlider(1, this.dates.length, this.dates.length, 1);
     this.dateSlider.position(700, 540);
-    this.dateSlider.input(render_map);
+    this.dateSlider.input(updateData);
 
-    render_map();
+    updateData();
   };
 
   this.destroy = function() {
@@ -62,23 +65,10 @@ function CovidMap() {
     strokeWeight(0);
     textStyle(BOLD);
     text(date.toDateString(), 410, 570);
-
-    var hoveredRegion = select('#worldMap>path:hover,#worldMap>g:hover');
-    if (hoveredRegion) {
-      var countryNameTag = select('name', hoveredRegion);
-      var countryCode = hoveredRegion.id();
-      if (countryNameTag && countryCode) {
-        var countryName = countryNameTag.html();
-
-        fill('black');
-        text(countryName, mouseX+10, mouseY+20);
-
-        text(this.dataPoints[countryCode] || 'Unknown', mouseX+10, mouseY+40);
-      }
-    }
+    this.worldMap.draw();
   };
 
-  function render_map() {
+  function updateData() {
     self.date = self.dates[self.dateSlider.value()-1];
     self.dayData = self.covidData.findRows(self.date, 'Date_reported');
     self.dataPoints = {};
@@ -104,9 +94,7 @@ function CovidMap() {
         return;
 
       // set default colour for all countries
-      document.querySelectorAll('#' + countryCode + ', #' + countryCode + ' *').forEach(function(el) {
-        el.style.fill = '#c0c0c0';
-      });
+      self.worldMap.setCountryColor(countryCode, '#c0c0c0');
 
       var value = Number(row.getNum(fieldName));
       if (value <= 0)
@@ -117,10 +105,7 @@ function CovidMap() {
       var c = color('red');
       c.setAlpha(map(value, minValue, maxValue, 50, 255));
 
-      // Set an individual style for each country
-      document.querySelectorAll('#' + countryCode + ', #' + countryCode + ' *').forEach(function(el) {
-        el.style.fill = c.toString();
-      });
+      self.worldMap.setCountryColor(countryCode, c.toString());
     });
   }
 }
