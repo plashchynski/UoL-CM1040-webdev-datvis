@@ -1,0 +1,207 @@
+ISO,ISO3,Country,Population
+AF,AFG,Afghanistan,37.2
+AL,ALB,Albania,2.9
+DZ,DZA,Algeria,42.7
+AO,AGO,Angola,31.8
+AG,ATG,Antigua and Barbuda,0.1
+AR,ARG,Argentina,45.1
+AM,ARM,Armenia,2.9
+AW,ABW,Aruba,0.1
+AU,AUS,Australia,25.1
+AT,AUT,Austria,8.8
+AZ,AZE,Azerbaijan,10
+BS,BHS,Bahamas,0.4
+BH,BHR,Bahrain,1.6
+BD,BGD,Bangladesh,168.1
+BB,BRB,Barbados,0.3
+BY,BLR,Belarus,9.4
+BE,BEL,Belgium,11.6
+BZ,BLZ,Belize,0.4
+BJ,BEN,Benin,11.8
+BT,BTN,Bhutan,0.8
+BO,BOL,Bolivia,11.4
+BA,BIH,Bosnia and Herzegovina,3.5
+BW,BWA,Botswana,2.4
+BR,BRA,Brazil,212.4
+BN,BRN,Brunei Darussalam,0.4
+BG,BGR,Bulgaria,7
+BF,BFA,Burkina Faso,20.3
+BI,BDI,Burundi,11.6
+KH,KHM,Cambodia,16.5
+CM,CMR,Cameroon,25.3
+CA,CAN,Canada,37.3
+CV,CPV,Cabo Verde,0.6
+CF,CAF,Central African Republic,4.8
+TD,TCD,Chad,15.8
+CL,CHL,Chile,18.3
+CN,CHN,China,1420.1
+HK,HKG,Hong Kong,7.5
+MO,MAC,Macao,0.6
+CO,COL,Colombia,49.8
+KM,COM,Comoros,0.9
+CD,COD,DR Congo,86.7
+CG,COG,Congo,5.5
+CR,CRI,Costa Rica,5
+CI,CIV,Côte d'Ivoire,25.5
+HR,HRV,Croatia,4.1
+CU,CUB,Cuba,11.5
+CW,CUW,Curaçao,0.2
+CY,CYP,Cyprus,1.2
+CZ,CZE,Czechia,10.6
+DK,DNK,Denmark,5.8
+DJ,DJI,Djibouti,1
+DM,DMA,Dominica,0.1
+DO,DOM,Dominican Republic,11
+EC,ECU,Ecuador,17.1
+EG,EGY,Egypt,101.2
+SV,SLV,El Salvador,6.4
+GQ,GNQ,Equatorial Guinea,1.4
+ER,ERI,Eritrea,5.3
+EE,EST,Estonia,1.3
+SZ,SWZ,Eswatini,1.4
+ET,ETH,Ethiopia,110.1
+FJ,FJI,Fiji,0.9
+FI,FIN,Finland,5.6
+FR,FRA,France,65.5
+GF,GUF,French Guiana,0.3
+PF,PYF,French Polynesia,0.3
+GA,GAB,Gabon,2.1
+GM,GMB,Gambia,2.2
+GE,GEO,Georgia,3.9
+DE,DEU,Germany,82.4
+GH,GHA,Ghana,30.1
+GR,GRC,Greece,11.1
+GL,GRL,Greenland,0.05
+GD,GRD,Grenada,0.1
+GP,GLP,Guadeloupe,0.4
+GU,GUM,Guam,0.2
+GT,GTM,Guatemala,17.6
+GN,GIN,Guinea,13.4
+GW,GNB,Guinea-Bissau,2
+GY,GUY,Guyana,0.8
+HT,HTI,Haiti,11.2
+HN,HND,Honduras,9.6
+HU,HUN,Hungary,9.7
+IS,ISL,Iceland,0.3
+IN,IND,India,1368.7
+ID,IDN,Indonesia,269.5
+IR,IRN,Iran,82.8
+IQ,IRQ,Iraq,40.4
+IE,IRL,Ireland,4.8
+IL,ISR,Israel,8.6
+IT,ITA,Italy,59.2
+JM,JAM,Jamaica,2.9
+JP,JPN,Japan,126.9
+JO,JOR,Jordan,10.1
+KZ,KAZ,Kazakhstan,18.6
+KE,KEN,Kenya,52.2
+KI,KIR,Kiribati,0.1
+KP,PRK,North Korea,25.7
+KR,KOR,South Korea,51.3
+KW,KWT,Kuwait,4.2
+KG,KGZ,Kyrgyzstan,6.2
+LA,LAO,Laos,7.1
+LV,LVA,Latvia,1.9
+LB,LBN,Lebanon,6.1
+LS,LSO,Lesotho,2.3
+LR,LBR,Liberia,5
+LY,LBY,Libya,6.6
+LT,LTU,Lithuania,2.9
+LU,LUX,Luxembourg,0.6
+MG,MDG,Madagascar,27
+MW,MWI,Malawi,19.7
+MY,MYS,Malaysia,32.5
+MV,MDV,Maldives,0.5
+ML,MLI,Mali,19.7
+MT,MLT,Malta,0.4
+MQ,MTQ,Martinique,0.4
+MR,MRT,Mauritania,4.7
+MU,MUS,Mauritius,1.3
+MX,MEX,Mexico,132.3
+FM,FSM,Micronesia,0.1
+MD,MDA,Moldova,4
+MN,MNG,Mongolia,3.2
+ME,MNE,Montenegro,0.6
+MA,MAR,Morocco,36.6
+MZ,MOZ,Mozambique,31.4
+MM,MMR,Myanmar,54.3
+NA,NAM,Namibia,2.6
+NP,NPL,Nepal,29.9
+NL,NLD,Netherlands,17.1
+NC,NCL,New Caledonia,0.3
+NZ,NZL,New Zealand,4.8
+NI,NIC,Nicaragua,6.4
+NE,NER,Niger,23.2
+NG,NGA,Nigeria,201
+NO,NOR,Norway,5.4
+OM,OMN,Oman,5
+PK,PAK,Pakistan,204.6
+PS,PSE,Palestine,5.2
+PA,PAN,Panama,4.2
+PG,PNG,Papua New Guinea,8.6
+PY,PRY,Paraguay,7
+PE,PER,Peru,32.9
+PH,PHL,Philippines,108.1
+PL,POL,Poland,38
+PT,PRT,Portugal,10.3
+PR,PRI,Puerto Rico,3.7
+QA,QAT,Qatar,2.7
+RE,REU,Réunion,0.9
+RO,ROU,Romania,19.5
+RU,RUS,Russian Federation,143.9
+RW,RWA,Rwanda,12.8
+KN,KNA,Saint Kitts and Nevis,0.1
+LC,LCA,Saint Lucia,0.2
+VC,VCT,Saint Vincent and the Grenadines,0.1
+WS,WSM,Samoa,0.2
+SM,SMR,San Marino,0
+ST,STP,Sao Tome and Principe,0.2
+SA,SAU,Saudi Arabia,34.1
+SN,SEN,Senegal,16.7
+RS,SRB,Serbia,8.7
+SC,SYC,Seychelles,0.1
+SL,SLE,Sierra Leone,7.9
+SG,SGP,Singapore,5.9
+SX,SXM,Sint Maarten (Dutch part),0
+SK,SVK,Slovakia,5.5
+SI,SVN,Slovenia,2.1
+SB,SLB,Solomon Islands,0.6
+SO,SOM,Somalia,15.6
+ZA,ZAF,South Africa,58.1
+SS,SSD,South Sudan,13.3
+ES,ESP,Spain,46.4
+LK,LKA,Sri Lanka,21
+SD,SDN,Sudan,42.5
+SR,SUR,Suriname,0.6
+SE,SWE,Sweden,10.1
+CH,CHE,Switzerland,8.6
+SY,SYR,Syrian Arab Republic,18.5
+TJ,TJK,Tajikistan,9.3
+TZ,TZA,Tanzania,60.9
+TH,THA,Thailand,69.3
+TW,TWN,Taiwan,23.6
+MK,MKD,North Macedonia,2.1
+TL,TLS,Timor-Leste,1.4
+TG,TGO,Togo,8.2
+TO,TON,Tonga,0.1
+TT,TTO,Trinidad and Tobago,1.4
+TN,TUN,Tunisia,11.8
+TR,TUR,Turkey,83
+TM,TKM,Turkmenistan,5.9
+TC,TCA,Turks and Caicos Islands,0
+TV,TUV,Tuvalu,0
+UG,UGA,Uganda,45.7
+UA,UKR,Ukraine,43.8
+AE,ARE,United Arab Emirates,9.7
+GB,GBR,United Kingdom,67
+US,USA,United States,329.1
+VI,VIR,US Virgin Islands,0.1
+UY,URY,Uruguay,3.5
+UZ,UZB,Uzbekistan,32.8
+VU,VUT,Vanuatu,0.3
+VE,VEN,Venezuela,32.8
+VN,VNM,Viet Nam,97.4
+EH,ESH,Western Sahara,0.6
+YE,YEM,Yemen,29.6
+ZM,ZMB,Zambia,18.1
+ZW,ZWE,Zimbabwe,17.3
