@@ -1,4 +1,4 @@
-# Data Vis
+# Datvis
 ## Project structure
 
 index.html is en HTML entrypoint file
@@ -20,3 +20,5 @@ lib/visualisations/ - individual visualisations for the gallery
 data/ — data files, data sources for visualisations
 
 vendor/ — third party libraries
+
+docs/ — Project documentation
